@@ -3,18 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot</title>
+    <title>Monkey Love Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('{{ url_for("static", filename="images/monkey_background.jpeg") }}');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            text-align: center;
+        }
+        #chat-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 50px;
+            width: 400px;
+        }
+        #chat-log {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 100%;
+            height: 300px;
+            overflow-y: auto;
+            background: #fff;
+            color: #000;
+            margin-bottom: 10px;
+        }
+        #user-input {
+            width: calc(100% - 100px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ff5252;
+        }
+        #progress-container {
+            margin: 20px auto;
+            width: 80%;
+            height: 20px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        #progress-bar {
+            height: 100%;
+            background: #ff6b6b;
+            width: 0%;
+            transition: width 0.3s ease-in-out;
+        }
+        #illuminated-image {
+            margin-top: 20px;
+            max-width: 400px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
 </head>
 <body>
-    <h1>Chat with Your Bot</h1>
+    <h1>Monkey Love Chatbot</h1>
     <div id="chat-container">
-        <div id="chat-log" style="border:1px solid #ccc; padding:10px; width:400px; height:300px; overflow:auto;"></div>
-        <input type="text" id="user-input" placeholder="Type your message" style="width:300px;">
+        <div id="chat-log"></div>
+        <input type="text" id="user-input" placeholder="Type your message">
         <button onclick="sendMessage()">Send</button>
     </div>
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+    <img id="illuminated-image" src="{{ url_for('static', filename='images/dog_image.jpg') }}" alt="Monkey Love" />
 
     <script>
-        const backendUrl = "/chat";  // Flask backend endpoint
+        const backendUrl = "/chat"; // Flask backend endpoint
+        let responseCount = 0;
 
         function sendMessage() {
             const userInput = document.getElementById("user-input").value;
@@ -36,6 +106,19 @@
                     // Add bot response to chat log
                     chatLog.innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
                     document.getElementById("user-input").value = ""; // Clear input
+
+                    // Update progress
+                    responseCount++;
+                    const progressBar = document.getElementById("progress-bar");
+                    const illuminatedImage = document.getElementById("illuminated-image");
+                    const progress = Math.min(100, (responseCount / 100) * 100);
+
+                    progressBar.style.width = progress + "%";
+                    illuminatedImage.style.opacity = progress / 100;
+
+                    if (responseCount >= 100) {
+                        alert("Happy Valentine's Day!");
+                    }
                 })
                 .catch(err => {
                     chatLog.innerHTML += `<p><strong>Error:</strong> Could not connect to the bot.</p>`;
