@@ -52,43 +52,72 @@
             background-color: #ff5252;
         }
 
-        #loading-title {
-            font-size: 22px;
-            margin-bottom: 20px;
-            animation: blinkText 1s infinite;
+        /* Loading Screen with Outline Box and Signal Bars */
+        #loading-screen {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            background-image: url('{{ url_for("static", filename="images/space_ocean.jpeg") }}');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
         }
 
-        @keyframes blinkText {
-            50% {
-                opacity: 0.5;
-            }
+        #loading-title-box {
+            background: rgba(0, 0, 0, 0.6); /* Transparent dark background */
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.5); /* Slightly grayed border */
+            max-width: 600px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #loading-title {
+            font-size: 22px;
+            line-height: 1.5; /* Line height for three lines */
+            margin: 0;
         }
 
         #loading-bar {
+            display: flex;
+            align-items: flex-end;
+            gap: 5px;
             margin-top: 20px;
-            width: 80%;
-            height: 20px;
+        }
+
+        .signal-bar {
+            width: 20px;
             background-color: #ddd;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
+            border-radius: 3px;
+            transition: height 0.5s ease, background-color 0.5s ease;
         }
 
-        #loading-progress {
-            width: 0;
-            height: 100%;
+        .signal-bar.active {
             background-color: #ff6b6b;
-            position: absolute;
-            animation: loading 10s linear forwards;
         }
 
-        @keyframes loading {
-            from {
-                width: 0%;
-            }
-            to {
-                width: 100%;
-            }
+        .signal-bar:nth-child(1) {
+            height: 20%;
+        }
+
+        .signal-bar:nth-child(2) {
+            height: 40%;
+        }
+
+        .signal-bar:nth-child(3) {
+            height: 60%;
+        }
+
+        .signal-bar:nth-child(4) {
+            height: 80%;
+        }
+
+        .signal-bar:nth-child(5) {
+            height: 100%;
         }
 
         #main-container {
@@ -223,9 +252,19 @@
 
     <!-- Loading Screen -->
     <div id="loading-screen">
-        <h1 id="loading-title">Signal going through the deepest oceans and through the seabed to connect with a satellite in space</h1>
+        <div id="loading-title-box">
+            <h1 id="loading-title">
+                Signal going through the deepest oceans<br />
+                and through the seabed<br />
+                to connect with a satellite in space
+            </h1>
+        </div>
         <div id="loading-bar">
-            <div id="loading-progress"></div>
+            <div class="signal-bar"></div>
+            <div class="signal-bar"></div>
+            <div class="signal-bar"></div>
+            <div class="signal-bar"></div>
+            <div class="signal-bar"></div>
         </div>
     </div>
 
@@ -252,10 +291,22 @@
         function startLoading() {
             document.getElementById('intro-screen').style.display = 'none';
             document.getElementById('loading-screen').style.display = 'flex';
-            setTimeout(() => {
-                document.getElementById('loading-screen').style.display = 'none';
-                document.getElementById('chat-screen').style.display = 'flex';
-            }, 10000); // 10 seconds
+
+            const bars = document.querySelectorAll(".signal-bar");
+            let activeBars = 0;
+
+            const interval = setInterval(() => {
+                if (activeBars < bars.length) {
+                    bars[activeBars].classList.add("active");
+                    activeBars++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('loading-screen').style.display = 'none';
+                        document.getElementById('chat-screen').style.display = 'flex';
+                    }, 1000);
+                }
+            }, 2000); // Light up one bar every 2 seconds
         }
 
         function sendMessage() {
