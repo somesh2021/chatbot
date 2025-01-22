@@ -7,15 +7,14 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
 
+        /* Initial body style (black background to avoid flashing monkey love) */
         body {
             font-family: 'Playfair Display', serif;
             margin: 0;
             padding: 0;
             color: #fff;
             text-align: center;
-            background-image: url('{{ url_for("static", filename="images/monkey_background.jpeg") }}');
-            background-size: cover;
-            background-position: center;
+            background-color: black; /* Default black background */
         }
 
         #intro-screen, #loading-screen, #chat-screen {
@@ -52,14 +51,14 @@
             background-color: #ff5252;
         }
 
-        /* Loading Screen with Outline Box and Signal Bars */
+        /* Loading Screen with Space Background */
         #loading-screen {
             display: none;
             justify-content: center;
             align-items: center;
             height: 100vh;
             flex-direction: column;
-            background-image: url('{{ url_for("static", filename="images/space_ocean.jpeg") }}');
+            background-image: url('{{ url_for("static", filename="images/space_underwater.jpeg") }}');
             background-size: cover;
             background-position: center;
             color: white;
@@ -118,6 +117,19 @@
 
         .signal-bar:nth-child(5) {
             height: 100%;
+        }
+
+        /* Chat Screen with Monkey Love Background */
+        #chat-screen {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            background-image: url('{{ url_for("static", filename="images/monkey_background.jpeg") }}');
+            background-size: cover;
+            background-position: center;
+            color: white;
         }
 
         #main-container {
@@ -230,15 +242,6 @@
             display: none;
             animation: fadeIn 2s ease-in-out forwards;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
     </style>
 </head>
 <body>
@@ -285,9 +288,6 @@
     </div>
 
     <script>
-        const backendUrl = "/chat"; // Flask backend endpoint
-        let responseCount = 0;
-
         function startLoading() {
             document.getElementById('intro-screen').style.display = 'none';
             document.getElementById('loading-screen').style.display = 'flex';
@@ -306,65 +306,7 @@
                         document.getElementById('chat-screen').style.display = 'flex';
                     }, 1000);
                 }
-            }, 2000); // Light up one bar every 2 seconds
-        }
-
-        function sendMessage() {
-            const userInput = document.getElementById("user-input").value;
-            const chatLog = document.getElementById("chat-log");
-
-            if (!userInput) return;
-
-            // Add user message to chat log
-            const userMessageElement = document.createElement("div");
-            userMessageElement.classList.add("message", "user-message");
-            userMessageElement.textContent = userInput;
-            chatLog.appendChild(userMessageElement);
-
-            // Scroll to the latest message
-            chatLog.scrollTop = chatLog.scrollHeight;
-
-            // Send user input to backend
-            fetch(backendUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: userInput })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Add bot response to chat log
-                    const botMessageElement = document.createElement("div");
-                    botMessageElement.classList.add("message", "bot-message");
-                    botMessageElement.textContent = data.response;
-                    chatLog.appendChild(botMessageElement);
-
-                    // Scroll to the latest message
-                    chatLog.scrollTop = chatLog.scrollHeight;
-
-                    // Clear input
-                    document.getElementById("user-input").value = "";
-
-                    // Update progress and display Valentine's Day message
-                    responseCount++;
-                    const valentinesMessage = document.getElementById("valentines-message");
-                    const illuminatedImage = document.getElementById("illuminated-image");
-                    const progress = Math.min(100, (responseCount / 10) * 100);
-
-                    illuminatedImage.style.opacity = progress / 100;
-
-                    if (responseCount >= 10) {
-                        valentinesMessage.style.display = "block";
-                    }
-                })
-                .catch(err => {
-                    const errorMessageElement = document.createElement("div");
-                    errorMessageElement.classList.add("message", "bot-message");
-                    errorMessageElement.textContent = "Error: Could not connect to the bot.";
-                    chatLog.appendChild(errorMessageElement);
-
-                    // Scroll to the latest message
-                    chatLog.scrollTop = chatLog.scrollHeight;
-                });
+            }, 2000); // Signal bars light up every 2 seconds
         }
     </script>
 </body>
