@@ -81,82 +81,22 @@
             margin: 0;
         }
 
-        /* Connecting section */
-        #connecting-section {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
-            padding: 15px 25px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.5); /* Slightly grayed border */
+        /* Progress Bar */
+        #progress-container {
+            width: 80%;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
         }
 
-        #connecting-text {
-            font-size: 24px;
-            font-weight: bold;
-            margin-right: 15px;
-            color: #fff;
-        }
-
-        /* Signal Bar Container */
-        #loading-bar {
-            display: flex;
-            align-items: flex-end;
-            gap: 5px;
-            z-index: 10; /* Ensure bars are on top */
-        }
-
-        /* Signal Bar Styling */
-        .signal-bar {
-            width: 20px;
-            border-radius: 3px;
-            height: 10%; /* Default height to ensure visibility */
-            animation: bounce 1.5s infinite ease-in-out;
-            background-color: yellow; /* Default color for visibility */
-            transition: background-color 0.3s ease;
-            z-index: 10; /* Ensure bars are on top */
-        }
-
-        /* Distinct Heights and Animation Delays */
-        .signal-bar:nth-child(1) {
-            height: 20%;
-            animation-delay: 0s;
-        }
-
-        .signal-bar:nth-child(2) {
-            height: 40%;
-            animation-delay: 0.3s;
-        }
-
-        .signal-bar:nth-child(3) {
-            height: 60%;
-            animation-delay: 0.6s;
-        }
-
-        .signal-bar:nth-child(4) {
-            height: 80%;
-            animation-delay: 0.9s;
-        }
-
-        .signal-bar:nth-child(5) {
+        #progress-bar {
+            width: 0%;
             height: 100%;
-            animation-delay: 1.2s;
-        }
-
-        /* Bouncing Animation */
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        /* Green Color Transition */
-        .signal-bar.green {
-            background-color: green !important;
+            background-color: yellow;
+            border-radius: 10px;
+            transition: width 0.5s ease;
         }
 
         /* Chat Screen with Monkey Love Background */
@@ -277,15 +217,8 @@
                 to connect with a satellite in space
             </h1>
         </div>
-        <div id="connecting-section">
-            <span id="connecting-text">Connecting...</span>
-            <div id="loading-bar">
-                <div class="signal-bar"></div>
-                <div class="signal-bar"></div>
-                <div class="signal-bar"></div>
-                <div class="signal-bar"></div>
-                <div class="signal-bar"></div>
-            </div>
+        <div id="progress-container">
+            <div id="progress-bar"></div>
         </div>
     </div>
 
@@ -306,28 +239,21 @@
             document.getElementById('intro-screen').style.display = 'none';
             document.getElementById('loading-screen').style.display = 'flex';
 
-            const bars = document.querySelectorAll(".signal-bar");
-            let activeBars = 0;
+            const progressBar = document.getElementById("progress-bar");
+            let progress = 0;
 
             const interval = setInterval(() => {
-                if (activeBars < bars.length) {
-                    bars[activeBars].classList.add("active");
-                    activeBars++;
-                } else {
-                    clearInterval(interval);
-                    // Change bars to green during the last second
-                    setTimeout(() => {
-                        bars.forEach(bar => {
-                            bar.classList.add("green");
-                        });
-                    }, 9000); // Change to green after 9 seconds
+                progress += 10; // Increase progress
+                progressBar.style.width = progress + "%";
 
+                if (progress >= 100) {
+                    clearInterval(interval);
                     setTimeout(() => {
                         document.getElementById('loading-screen').style.display = 'none';
                         document.getElementById('chat-screen').style.display = 'flex';
-                    }, 10000); // Transition to chat screen after 10 seconds
+                    }, 500);
                 }
-            }, 2000); // Signal bars light up every 2 seconds
+            }, 1000); // Update every second
         }
     </script>
 </body>
