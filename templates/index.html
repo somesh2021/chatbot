@@ -104,6 +104,7 @@
             display: flex;
             align-items: flex-end;
             gap: 5px;
+            z-index: 10; /* Ensure bars are on top */
         }
 
         /* Signal Bar Styling */
@@ -112,8 +113,9 @@
             border-radius: 3px;
             height: 10%; /* Default height to ensure visibility */
             animation: bounce 1.5s infinite ease-in-out;
-            background-color: yellow; /* Default color is yellow */
+            background-color: yellow; /* Default color for visibility */
             transition: background-color 0.3s ease;
+            z-index: 10; /* Ensure bars are on top */
         }
 
         /* Distinct Heights and Animation Delays */
