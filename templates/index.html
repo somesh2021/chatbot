@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monkey Love Chatbot</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=IM+FELL+DW+Pica&display=swap');
 
         /* Initial body style (black background to avoid flashing monkey love) */
         body {
-            font-family: 'Playfair Display', serif;
+            font-family: 'IM FELL DW Pica', serif;
             margin: 0;
             padding: 0;
             color: #fff;
@@ -50,7 +50,8 @@
             line-height: 1.6;
         }
 
-        #intro-button {
+        #intro-button,
+        #wanted-poster-button {
             padding: 10px 20px;
             background-color: #ff6b6b;
             border: none;
@@ -60,9 +61,11 @@
             border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            margin-top: 10px;
         }
 
-        #intro-button:hover {
+        #intro-button:hover,
+        #wanted-poster-button:hover {
             background-color: #ff5252;
         }
 
@@ -222,6 +225,7 @@
             <div id="disclaimer-box">
                 Please chat with the Clown Rock Goddess at your own risk. The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe (Click below to see her wanted poster!). By clicking Kay Kay below, you consent to being hypnotized by the magical powers of the Clown Rock Goddess and are hereby assuming all liability and responsibility for any physical and mental perils you may be exposed to for the duration of this chat session.
             </div>
+            <button id="wanted-poster-button" onclick="openWantedPoster()">See Wanted Poster</button>
             <button id="intro-button" onclick="startLoading()">Kay Kay</button>
         </div>
     </div>
@@ -253,6 +257,10 @@
     </div>
 
     <script>
+        function openWantedPoster() {
+            window.open('{{ url_for("static", filename="images/wanted_poster.jpeg") }}', '_blank');
+        }
+
         function startLoading() {
             document.getElementById('intro-screen').style.display = 'none';
             document.getElementById('loading-screen').style.display = 'flex';
