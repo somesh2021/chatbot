@@ -6,16 +6,15 @@
     <title>Monkey Love Chatbot</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital,wght@1,400&display=swap');
 
-        /* General Body Styling */
+        /* General Styling */
         body {
-            font-family: 'IM Fell English Italic', serif;
+            font-family: 'IM Fell English', serif;
             margin: 0;
             padding: 0;
             color: #fff;
             text-align: center;
-            background-color: black; /* Default black background */
+            background-color: black;
         }
 
         #intro-screen, #loading-screen, #chat-screen {
@@ -31,14 +30,17 @@
             background-color: black;
         }
 
-        #intro-title {
+        /* Title Styling */
+        #intro-title, #chat-title, #loading-title {
             font-family: 'IM Fell English', serif;
             font-size: 28px;
             margin-bottom: 20px;
         }
 
-        #disclaimer-box {
-            font-family: 'IM Fell English Italic', serif;
+        /* Italic Body Text */
+        #disclaimer-box, #loading-title-box {
+            font-family: 'IM Fell English', serif;
+            font-style: italic;
             background: rgba(0, 0, 0, 0.8);
             border: 2px solid #ff6b6b;
             border-radius: 10px;
@@ -53,8 +55,8 @@
             line-height: 1.6;
         }
 
-        #intro-button,
-        #wanted-poster-button {
+        /* Buttons */
+        #intro-button, #wanted-poster-button {
             padding: 10px 20px;
             background-color: #ff6b6b;
             border: none;
@@ -67,12 +69,11 @@
             margin-top: 10px;
         }
 
-        #intro-button:hover,
-        #wanted-poster-button:hover {
+        #intro-button:hover, #wanted-poster-button:hover {
             background-color: #ff5252;
         }
 
-        /* Loading Screen with Space Background */
+        /* Loading Screen */
         #loading-screen {
             display: none;
             justify-content: center;
@@ -87,21 +88,15 @@
         }
 
         #loading-title-box {
-            font-family: 'IM Fell English Italic', serif;
-            background: rgba(0, 0, 0, 0.6); /* Transparent dark background */
+            font-family: 'IM Fell English', serif;
+            font-style: italic;
+            background: rgba(0, 0, 0, 0.6);
             padding: 20px;
             border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.5); /* Slightly grayed border */
+            border: 1px solid rgba(255, 255, 255, 0.5);
             max-width: 600px;
             text-align: center;
             margin-bottom: 20px;
-        }
-
-        #loading-title {
-            font-family: 'IM Fell English', serif;
-            font-size: 22px;
-            line-height: 1.5; /* Line height for three lines */
-            margin: 0;
         }
 
         /* Progress Bar */
@@ -122,7 +117,7 @@
             transition: width 0.5s ease;
         }
 
-        /* Chat Screen with Monkey Love Background */
+        /* Chat Screen */
         #chat-screen {
             display: none;
             justify-content: center;
@@ -135,17 +130,8 @@
             color: white;
         }
 
-        #main-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            height: 100vh;
-        }
-
         #chat-container {
-            background: rgba(0, 0, 0, 0.9); /* Black background for the textbox */
+            background: rgba(0, 0, 0, 0.9);
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -159,6 +145,18 @@
             font-weight: bold;
             margin-bottom: 15px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Wanted Poster Modal */
+        #modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
         }
 
         #wanted-modal {
@@ -195,29 +193,17 @@
             background: #ff5252;
         }
 
-        #modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 999;
-        }
     </style>
 </head>
 <body>
     <!-- Intro Screen -->
     <div id="intro-screen">
-        <div>
-            <h1 id="intro-title">Are you ready to interact with the Clown Rock Goddess?</h1>
-            <div id="disclaimer-box">
-                Please chat with the Clown Rock Goddess at your own risk. The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe. By clicking Kay Kay below, you consent to being hypnotized by the magical powers of the Clown Rock Goddess and are hereby assuming all liability and responsibility for any physical and mental perils you may be exposed to for the duration of this chat session.
-            </div>
-            <button id="wanted-poster-button" onclick="openWantedPoster()">See Wanted Poster</button>
-            <button id="intro-button" onclick="startLoading()">Kay Kay</button>
+        <h1 id="intro-title">Are you ready to interact with the Clown Rock Goddess?</h1>
+        <div id="disclaimer-box">
+            Please chat with the Clown Rock Goddess at your own risk. The Clown Rock Goddess is a notorious sorceress known for brainwashing and crimes. By clicking *Kay Kay*, you accept all responsibility.
         </div>
+        <button id="wanted-poster-button" onclick="openWantedPoster()">See Wanted Poster</button>
+        <button id="intro-button" onclick="startLoading()">Kay Kay</button>
     </div>
 
     <!-- Wanted Poster Modal -->
@@ -225,6 +211,16 @@
     <div id="wanted-modal">
         <img src="{{ url_for('static', filename='images/wanted_poster.jpeg') }}" alt="Wanted Poster">
         <button id="close-modal" onclick="closeModal()">Close</button>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div id="loading-title-box">
+            <h1 id="loading-title">Signal going through the deepest oceans<br>and through the seabed<br>to connect with a satellite in space</h1>
+        </div>
+        <div id="progress-container">
+            <div id="progress-bar"></div>
+        </div>
     </div>
 
     <script>
@@ -236,6 +232,25 @@
         function closeModal() {
             document.getElementById('modal-overlay').style.display = 'none';
             document.getElementById('wanted-modal').style.display = 'none';
+        }
+
+        function startLoading() {
+            document.getElementById('intro-screen').style.display = 'none';
+            document.getElementById('loading-screen').style.display = 'flex';
+
+            const progressBar = document.getElementById("progress-bar");
+            let progress = 0;
+
+            const interval = setInterval(() => {
+                progress += 10;
+                progressBar.style.width = progress + "%";
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    document.getElementById('loading-screen').style.display = 'none';
+                    document.getElementById('chat-screen').style.display = 'flex';
+                }
+            }, 500);
         }
     </script>
 </body>
