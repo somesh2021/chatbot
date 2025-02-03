@@ -223,17 +223,17 @@
         </div>
     </div>
 
+    <!-- Chat Screen -->
+    <div id="chat-screen">
+        <div id="chat-container">
+            <h2 id="chat-title">Chat with the Clown Rock Goddess</h2>
+            <div id="chat-log"></div>
+            <input type="text" id="user-input" placeholder="Type your message">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
     <script>
-        function openWantedPoster() {
-            document.getElementById('modal-overlay').style.display = 'block';
-            document.getElementById('wanted-modal').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('modal-overlay').style.display = 'none';
-            document.getElementById('wanted-modal').style.display = 'none';
-        }
-
         function startLoading() {
             document.getElementById('intro-screen').style.display = 'none';
             document.getElementById('loading-screen').style.display = 'flex';
