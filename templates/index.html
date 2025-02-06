@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monkey Love Chatbot</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica:ital@1&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap');
 
-        /* Initial body style (black background to avoid flashing monkey love) */
+        /* General Styling */
         body {
-            font-family: 'IM FELL DW Pica', serif;
+            font-family: 'IM Fell English', serif;
             margin: 0;
             padding: 0;
             color: #fff;
             text-align: center;
-            background-color: black; /* Default black background */
+            background-color: black;
         }
 
         #intro-screen, #loading-screen, #chat-screen {
@@ -30,12 +30,17 @@
             background-color: black;
         }
 
-        #intro-title {
+        /* Title Styling */
+        #intro-title, #chat-title, #loading-title {
+            font-family: 'IM Fell English', serif;
             font-size: 28px;
             margin-bottom: 20px;
         }
 
-        #disclaimer-box {
+        /* Italic Body Text */
+        #disclaimer-box, #loading-title-box {
+            font-family: 'IM Fell English', serif;
+            font-style: italic;
             background: rgba(0, 0, 0, 0.8);
             border: 2px solid #ff6b6b;
             border-radius: 10px;
@@ -50,8 +55,8 @@
             line-height: 1.6;
         }
 
-        #intro-button,
-        #wanted-poster-button {
+        /* Buttons */
+        #intro-button, #wanted-poster-button, #send-button {
             padding: 10px 20px;
             background-color: #ff6b6b;
             border: none;
@@ -64,12 +69,11 @@
             margin-top: 10px;
         }
 
-        #intro-button:hover,
-        #wanted-poster-button:hover {
+        #intro-button:hover, #wanted-poster-button:hover, #send-button:hover {
             background-color: #ff5252;
         }
 
-        /* Loading Screen with Space Background */
+        /* Loading Screen */
         #loading-screen {
             display: none;
             justify-content: center;
@@ -84,19 +88,15 @@
         }
 
         #loading-title-box {
-            background: rgba(0, 0, 0, 0.6); /* Transparent dark background */
+            font-family: 'IM Fell English', serif;
+            font-style: italic;
+            background: rgba(0, 0, 0, 0.6);
             padding: 20px;
             border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.5); /* Slightly grayed border */
+            border: 1px solid rgba(255, 255, 255, 0.5);
             max-width: 600px;
             text-align: center;
             margin-bottom: 20px;
-        }
-
-        #loading-title {
-            font-size: 22px;
-            line-height: 1.5; /* Line height for three lines */
-            margin: 0;
         }
 
         /* Progress Bar */
@@ -117,7 +117,7 @@
             transition: width 0.5s ease;
         }
 
-        /* Chat Screen with Monkey Love Background */
+        /* Chat Screen */
         #chat-screen {
             display: none;
             justify-content: center;
@@ -130,17 +130,8 @@
             color: white;
         }
 
-        #main-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            height: 100vh;
-        }
-
         #chat-container {
-            background: rgba(0, 0, 0, 0.9); /* Black background for the textbox */
+            background: rgba(0, 0, 0, 0.9);
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -148,6 +139,7 @@
         }
 
         #chat-title {
+            font-family: 'IM Fell English', serif;
             font-size: 24px;
             color: #ff6b6b;
             font-weight: bold;
@@ -155,13 +147,14 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
+        /* Chat Log */
         #chat-log {
             border: 2px solid #ff6b6b;
             padding: 10px;
             width: 100%;
             height: 300px;
             overflow-y: auto;
-            background: rgba(255, 255, 255, 0.9); /* White background for messages */
+            background: rgba(255, 255, 255, 0.9);
             color: #000;
             margin-bottom: 10px;
             border-radius: 10px;
@@ -170,6 +163,7 @@
             gap: 10px;
         }
 
+        /* iMessage Style */
         .message {
             max-width: 70%;
             padding: 10px;
@@ -190,6 +184,7 @@
             color: #000;
         }
 
+        /* Chat Input */
         #user-input {
             width: calc(100% - 110px);
             padding: 10px;
@@ -199,22 +194,6 @@
             margin-right: 10px;
             outline: none;
         }
-
-        button {
-            padding: 10px 15px;
-            border: none;
-            background: #ff6b6b;
-            color: white;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        button:hover {
-            background: #ff5252;
-        }
     </style>
 </head>
 <body>
@@ -222,10 +201,7 @@
     <div id="intro-screen">
         <div>
             <h1 id="intro-title">Are you ready to interact with the Clown Rock Goddess?</h1>
-            <div id="disclaimer-box">
-                Please chat with the Clown Rock Goddess at your own risk. The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe (Click below to see her wanted poster!). By clicking Kay Kay below, you consent to being hypnotized by the magical powers of the Clown Rock Goddess and are hereby assuming all liability and responsibility for any physical and mental perils you may be exposed to for the duration of this chat session.
-            </div>
-            <button id="wanted-poster-button" onclick="openWantedPoster()">See Wanted Poster</button>
+            <div id="disclaimer-box">[Disclaimer Text]</div>
             <button id="intro-button" onclick="startLoading()">Kay Kay</button>
         </div>
     </div>
@@ -246,21 +222,15 @@
 
     <!-- Chat Screen -->
     <div id="chat-screen">
-        <div id="main-container">
-            <div id="chat-container">
-                <h2 id="chat-title">Chat with the Clown Rock Goddess</h2>
-                <div id="chat-log"></div>
-                <input type="text" id="user-input" placeholder="Type your message">
-                <button onclick="sendMessage()">Send</button>
-            </div>
+        <div id="chat-container">
+            <h2 id="chat-title">Chat with the Clown Rock Goddess</h2>
+            <div id="chat-log"></div>
+            <input type="text" id="user-input" placeholder="Type your message" onkeypress="handleKeyPress(event)">
+            <button id="send-button" onclick="sendMessage()">Send</button>
         </div>
     </div>
 
     <script>
-        function openWantedPoster() {
-            window.open('{{ url_for("static", filename="images/wanted_poster.jpeg") }}', '_blank');
-        }
-
         function startLoading() {
             document.getElementById('intro-screen').style.display = 'none';
             document.getElementById('loading-screen').style.display = 'flex';
@@ -269,7 +239,7 @@
             let progress = 0;
 
             const interval = setInterval(() => {
-                progress += 10; // Increase progress
+                progress += 10;
                 progressBar.style.width = progress + "%";
 
                 if (progress >= 100) {
@@ -279,7 +249,19 @@
                         document.getElementById('chat-screen').style.display = 'flex';
                     }, 500);
                 }
-            }, 1000); // Update every second
+            }, 1000);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById("user-input");
+            if (!input.value.trim()) return;
+
+            document.getElementById("chat-log").innerHTML += `<div class="message user-message">${input.value}</div>`;
+            input.value = "";
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") sendMessage();
         }
     </script>
 </body>
