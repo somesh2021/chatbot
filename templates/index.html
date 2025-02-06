@@ -147,6 +147,43 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
+        /* Chat Log */
+        #chat-log {
+            border: 2px solid #ff6b6b;
+            padding: 10px;
+            width: 100%;
+            height: 300px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* iMessage Style */
+        .message {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .user-message {
+            background-color: #d1e7ff;
+            align-self: flex-end;
+            color: #000;
+        }
+
+        .bot-message {
+            background-color: #f1f1f1;
+            align-self: flex-start;
+            color: #000;
+        }
+
         /* Wanted Poster Modal */
         #modal-overlay {
             display: none;
@@ -196,33 +233,6 @@
     </style>
 </head>
 <body>
-    <!-- Intro Screen -->
-    <div id="intro-screen">
-        <h1 id="intro-title">Are you ready to interact with the Clown Rock Goddess?</h1>
-        <div id="disclaimer-box">
-            Please chat with the Clown Rock Goddess at your own risk. The Clown Rock Goddess is a notorious sorceress known for brainwashing and crimes. By clicking *Kay Kay*, you accept all responsibility.
-        </div>
-        <button id="wanted-poster-button" onclick="openWantedPoster()">See Wanted Poster</button>
-        <button id="intro-button" onclick="startLoading()">Kay Kay</button>
-    </div>
-
-    <!-- Wanted Poster Modal -->
-    <div id="modal-overlay"></div>
-    <div id="wanted-modal">
-        <img src="{{ url_for('static', filename='images/wanted_poster.jpeg') }}" alt="Wanted Poster">
-        <button id="close-modal" onclick="closeModal()">Close</button>
-    </div>
-
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div id="loading-title-box">
-            <h1 id="loading-title">Signal going through the deepest oceans<br>and through the seabed<br>to connect with a satellite in space</h1>
-        </div>
-        <div id="progress-container">
-            <div id="progress-bar"></div>
-        </div>
-    </div>
-
     <!-- Chat Screen -->
     <div id="chat-screen">
         <div id="chat-container">
@@ -234,23 +244,20 @@
     </div>
 
     <script>
-        function startLoading() {
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('loading-screen').style.display = 'flex';
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            const chatLog = document.getElementById("chat-log");
 
-            const progressBar = document.getElementById("progress-bar");
-            let progress = 0;
+            if (!userInput) return;
 
-            const interval = setInterval(() => {
-                progress += 10;
-                progressBar.style.width = progress + "%";
+            chatLog.innerHTML += `<p class="message user-message">${userInput}</p>`;
 
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    document.getElementById('loading-screen').style.display = 'none';
-                    document.getElementById('chat-screen').style.display = 'flex';
-                }
-            }, 500);
+            setTimeout(() => {
+                chatLog.innerHTML += `<p class="message bot-message">[Bot Response]</p>`;
+                chatLog.scrollTop = chatLog.scrollHeight;
+            }, 1000);
+
+            document.getElementById("user-input").value = "";
         }
     </script>
 </body>
