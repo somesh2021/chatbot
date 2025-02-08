@@ -253,11 +253,61 @@
         }
 
         function sendMessage() {
-            const input = document.getElementById("user-input");
-            if (!input.value.trim()) return;
+            const userInput = document.getElementById("user-input").value;
+            const chatLog = document.getElementById("chat-log");
 
-            document.getElementById("chat-log").innerHTML += `<div class="message user-message">${input.value}</div>`;
-            input.value = "";
+            if (!userInput) return;
+
+            // Add user message to chat log
+            const userMessageElement = document.createElement("div");
+            userMessageElement.classList.add("message", "user-message");
+            userMessageElement.textContent = userInput;
+            chatLog.appendChild(userMessageElement);
+
+            // Scroll to the latest message
+            chatLog.scrollTop = chatLog.scrollHeight;
+
+            // Send user input to backend
+            fetch(backendUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userInput })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Add bot response to chat log
+                    const botMessageElement = document.createElement("div");
+                    botMessageElement.classList.add("message", "bot-message");
+                    botMessageElement.textContent = data.response;
+                    chatLog.appendChild(botMessageElement);
+
+                    // Scroll to the latest message
+                    chatLog.scrollTop = chatLog.scrollHeight;
+
+                    // Clear input
+                    document.getElementById("user-input").value = "";
+
+                    // Update progress and display Valentine's Day message
+                    responseCount++;
+                    const valentinesMessage = document.getElementById("valentines-message");
+                    const illuminatedImage = document.getElementById("illuminated-image");
+                    const progress = Math.min(100, (responseCount / 10) * 100);
+
+                    illuminatedImage.style.opacity = progress / 100;
+
+                    if (responseCount >= 10) {
+                        valentinesMessage.style.display = "block";
+                    }
+                })
+                .catch(err => {
+                    const errorMessageElement = document.createElement("div");
+                    errorMessageElement.classList.add("message", "bot-message");
+                    errorMessageElement.textContent = "Error: Could not connect to the bot.";
+                    chatLog.appendChild(errorMessageElement);
+
+                    // Scroll to the latest message
+                    chatLog.scrollTop = chatLog.scrollHeight;
+                });
         }
 
         function handleKeyPress(event) {
