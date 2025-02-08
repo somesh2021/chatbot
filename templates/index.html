@@ -303,7 +303,7 @@
 <body>
   <!-- Audio Elements -->
   <!-- This audio plays on the intro and loading screens -->
-  <audio id="intro-loading-audio" src="{{ url_for('static', filename='audio/bluey_theme.mp3') }}" autoplay loop></audio>
+  <audio id="intro-loading-audio" src="{{ url_for('static', filename='audio/severance.mp3') }}" loop></audio>
   <!-- This audio will play on the chat screen -->
   <audio id="chat-audio" src="{{ url_for('static', filename='audio/harry_theme.mp3') }}" loop></audio>
 
@@ -363,6 +363,14 @@
     const backendUrl = "/chat"; // Flask backend endpoint
     let responseCount = 0;
 
+    // Trigger intro/loading audio when user clicks anywhere on the intro screen
+    document.getElementById("intro-screen").addEventListener("click", function () {
+      var audio = document.getElementById("intro-loading-audio");
+      if (audio.paused) {
+        audio.play().catch(err => console.log("Intro audio play failed:", err));
+      }
+    });
+
     function startLoading() {
       document.getElementById("intro-screen").style.display = "none";
       document.getElementById("loading-screen").style.display = "flex";
@@ -380,7 +388,7 @@
             document.getElementById("loading-screen").style.display = "none";
             // Switch audio: stop the intro/loading audio and start chat audio.
             document.getElementById("intro-loading-audio").pause();
-            document.getElementById("chat-audio").play();
+            document.getElementById("chat-audio").play().catch(err => console.log("Chat audio play failed:", err));
             document.getElementById("chat-screen").style.display = "flex";
           }, 500);
         }
