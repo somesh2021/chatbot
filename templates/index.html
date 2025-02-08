@@ -1,455 +1,468 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monkey Love Chatbot</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monkey Love Chatbot</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap');
 
-        /* General Styling */
-        body {
-            font-family: 'IM Fell English', serif;
-            margin: 0;
-            padding: 0;
-            color: #fff;
-            text-align: center;
-            background-color: black;
-        }
+    /* General Styling */
+    body {
+      font-family: 'IM Fell English', serif;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      text-align: center;
+      background-color: black;
+    }
 
-        #intro-screen, #loading-screen, #chat-screen {
-            display: none;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
+    #intro-screen, #loading-screen, #chat-screen {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
 
-        #intro-screen {
-            display: flex;
-            background-color: black;
-        }
+    #intro-screen {
+      display: flex;
+      background-color: black;
+    }
 
-        /* Title Styling */
-        #intro-title, #chat-title, #loading-title {
-            font-family: 'IM Fell English', serif;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
+    /* Title Styling */
+    #intro-title, #chat-title, #loading-title {
+      font-family: 'IM Fell English', serif;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
 
-        /* Italic Body Text */
-        #disclaimer-box, #loading-title-box {
-            font-family: 'IM Fell English', serif;
-            font-style: italic;
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #ff6b6b;
-            border-radius: 10px;
-            padding: 20px;
-            max-width: 600px;
-            max-height: 300px;
-            overflow-y: auto;
-            margin-bottom: 20px;
-            color: #ff6b6b;
-            text-align: left;
-            font-size: 16px;
-            line-height: 1.6;
-        }
+    /* Italic Body Text */
+    #disclaimer-box, #loading-title-box {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #ff6b6b;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 600px;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      color: #ff6b6b;
+      text-align: left;
+      font-size: 16px;
+      line-height: 1.6;
+    }
 
-        /* Buttons */
-        /* (Note: The original Kay Kay button has been removed from the intro screen) */
-        #wanted-poster-button, #send-button {
-            padding: 10px 20px;
-            background-color: #ff6b6b;
-            border: none;
-            color: #fff;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            margin-top: 10px;
-        }
+    /* Buttons */
+    /* (Note: The original Kay Kay button has been removed from the intro screen) */
+    #wanted-poster-button, #send-button {
+      padding: 10px 20px;
+      background-color: #ff6b6b;
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      margin-top: 10px;
+    }
 
-        #wanted-poster-button:hover, #send-button:hover {
-            background-color: #ff5252;
-        }
+    #wanted-poster-button:hover, #send-button:hover {
+      background-color: #ff5252;
+    }
 
-        /* Loading Screen */
-        #loading-screen {
-            display: none;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-            background-image: url('{{ url_for("static", filename="images/space_ocean.jpeg") }}');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-        }
+    /* Loading Screen */
+    #loading-screen {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      background-image: url('{{ url_for("static", filename="images/space_ocean.jpeg") }}');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+    }
 
-        #loading-title-box {
-            font-family: 'IM Fell English', serif;
-            font-style: italic;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            max-width: 600px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    #loading-title-box {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      max-width: 600px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-        /* Progress Bar */
-        #progress-container {
-            width: 80%;
-            height: 20px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 20px;
-        }
+    /* Progress Bar */
+    #progress-container {
+      width: 80%;
+      height: 20px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
 
-        #progress-bar {
-            width: 0%;
-            height: 100%;
-            background-color: yellow;
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
+    #progress-bar {
+      width: 0%;
+      height: 100%;
+      background-color: yellow;
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
 
-        /* Chat Screen */
-        #chat-screen {
-            display: none;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-            background-image: url('{{ url_for("static", filename="images/monkey_background.jpeg") }}');
-            background-size: cover;
-            background-position: center;
-            color: white;
-        }
+    /* Chat Screen */
+    #chat-screen {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      background-image: url('{{ url_for("static", filename="images/monkey_background.jpeg") }}');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
 
-        #chat-container {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            width: 450px;
-            /* New: Set font inside the chatbot box to Calibri */
-            font-family: Calibri, sans-serif;
-        }
+    #chat-container {
+      background: rgba(0, 0, 0, 0.9);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      width: 450px;
+      /* New: Set font inside the chatbot box to Calibri */
+      font-family: Calibri, sans-serif;
+    }
 
-        #chat-title {
-            font-family: 'IM Fell English', serif;
-            font-size: 24px;
-            color: #ff6b6b;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-        }
+    #chat-title {
+      font-family: 'IM Fell English', serif;
+      font-size: 24px;
+      color: #ff6b6b;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
 
-        /* Chat Log */
-        #chat-log {
-            border: 2px solid #ff6b6b;
-            padding: 10px;
-            width: 100%;
-            height: 300px;
-            overflow-y: auto;
-            background: rgba(255, 255, 255, 0.9);
-            color: #000;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+    /* Chat Log */
+    #chat-log {
+      border: 2px solid #ff6b6b;
+      padding: 10px;
+      width: 100%;
+      height: 300px;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.9);
+      color: #000;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-        /* iMessage Style */
-        .message {
-            max-width: 70%;
-            padding: 10px;
-            border-radius: 15px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
+    /* iMessage Style */
+    .message {
+      max-width: 70%;
+      padding: 10px;
+      border-radius: 15px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
 
-        .user-message {
-            background-color: #d1e7ff;
-            align-self: flex-end;
-            color: #000;
-        }
+    .user-message {
+      background-color: #d1e7ff;
+      align-self: flex-end;
+      color: #000;
+    }
 
-        .bot-message {
-            background-color: #f1f1f1;
-            align-self: flex-start;
-            color: #000;
-        }
+    .bot-message {
+      background-color: #f1f1f1;
+      align-self: flex-start;
+      color: #000;
+    }
 
-        /* Chat Input */
-        #user-input {
-            width: calc(100% - 110px);
-            padding: 10px;
-            border: 2px solid #ff6b6b;
-            border-radius: 10px;
-            font-size: 14px;
-            margin-right: 10px;
-            outline: none;
-        }
-        #illuminated-container {
-            position: relative;
-            max-width: 400px;
-        }
+    /* Chat Input */
+    #user-input {
+      width: calc(100% - 110px);
+      padding: 10px;
+      border: 2px solid #ff6b6b;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-right: 10px;
+      outline: none;
+    }
 
-        #illuminated-image {
-            width: 100%;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-            border-radius: 15px;
-        }
+    #illuminated-container {
+      position: relative;
+      max-width: 400px;
+    }
 
-        #valentines-message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #ff6b6b;
-            font-size: 28px;
-            font-weight: bold;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-            display: none;
-            animation: fadeIn 2s ease-in-out forwards;
-        }
+    #illuminated-image {
+      width: 100%;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      border-radius: 15px;
+    }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        /* Modal styling for Wanted Poster (New) */
-        #wanted-poster-modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.8);
-        }
-        
-        #wanted-poster-modal-content {
-            margin: 10% auto;
-            padding: 20px;
-            background: #fff;
-            width: 80%;
-            max-width: 600px;
-            border-radius: 10px;
-            position: relative;
-            text-align: center;
-        }
-        
-        #wanted-poster-modal-content img {
-            width: 100%;
-            border-radius: 10px;
-        }
-        
-        #close-wanted-poster {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            color: #000;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        /* New styling for modal disclaimer and its Kay Kay button */
-        #modal-disclaimer {
-            margin-top: 20px;
-        }
-        #modal-disclaimer p {
-            font-family: 'IM Fell English', serif;
-            font-style: italic;
-            color: #000;
-            margin: 0 0 10px;
-            font-size: 18px;
-        }
-        #modal-disclaimer button {
-            padding: 10px 20px;
-            background-color: #ff6b6b;
-            border: none;
-            color: #fff;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        #modal-disclaimer button:hover {
-            background-color: #ff5252;
-        }
-    </style>
+    #valentines-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #ff6b6b;
+      font-size: 28px;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      display: none;
+      animation: fadeIn 2s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Modal styling for Wanted Poster (New) */
+    #wanted-poster-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    #wanted-poster-modal-content {
+      margin: 10% auto;
+      padding: 20px;
+      background: #fff;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 10px;
+      position: relative;
+      text-align: center;
+    }
+
+    #wanted-poster-modal-content img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    #close-wanted-poster {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #000;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* New styling for modal disclaimer and its Kay Kay button */
+    #modal-disclaimer {
+      margin-top: 20px;
+    }
+
+    #modal-disclaimer p {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: #000;
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    #modal-disclaimer button {
+      padding: 10px 20px;
+      background-color: #ff6b6b;
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    #modal-disclaimer button:hover {
+      background-color: #ff5252;
+    }
+  </style>
 </head>
 <body>
-    <!-- Intro Screen -->
-    <div id="intro-screen">
-        <div>
-            <h1 id="intro-title">Are you ready to interact with the Clown Rock Goddess?</h1>
-            <div id="disclaimer-box">
-                Please chat with the Clown Rock Goddess at your own risk. The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe.
-            </div>
-            <!-- Only the Show Wanted Poster button remains -->
-            <button id="wanted-poster-button" onclick="openWantedPoster()">Show Wanted Poster</button>
-        </div>
+  <!-- Audio Elements -->
+  <!-- This audio plays on the intro and loading screens -->
+  <audio id="intro-loading-audio" src="{{ url_for('static', filename='audio/Bluey Theme.mp3') }}" autoplay loop></audio>
+  <!-- This audio will play on the chat screen -->
+  <audio id="chat-audio" src="{{ url_for('static', filename='audio/Hedwig's Theme.mp3') }}" loop></audio>
+
+  <!-- Intro Screen -->
+  <div id="intro-screen">
+    <div>
+      <h1 id="intro-title">Are you ready to interact with the Clown Rock Goddess?</h1>
+      <div id="disclaimer-box">
+        Please chat with the Clown Rock Goddess at your own risk. The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe.
+      </div>
+      <!-- Only the Show Wanted Poster button remains -->
+      <button id="wanted-poster-button" onclick="openWantedPoster()">Show Wanted Poster</button>
     </div>
+  </div>
 
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div id="loading-title-box">
-            <h1 id="loading-title">
-                Signal going through the deepest oceans<br />
-                and through the seabed<br />
-                to connect with a satellite in space
-            </h1>
-        </div>
-        <div id="progress-container">
-            <div id="progress-bar"></div>
-        </div>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div id="loading-title-box">
+      <h1 id="loading-title">
+        Signal going through the deepest oceans<br />
+        and through the seabed<br />
+        to connect with a satellite in space
+      </h1>
     </div>
-
-    <!-- Chat Screen -->
-    <div id="chat-screen">
-        <div id="chat-container">
-            <h2 id="chat-title">Chat with the Clown Rock Goddess</h2>
-            <div id="chat-log"></div>
-            <input type="text" id="user-input" placeholder="Type your message" onkeypress="handleKeyPress(event)">
-            <button id="send-button" onclick="sendMessage()">Send</button>
-        </div>
-        <div id="illuminated-container">
-            <img id="illuminated-image" src="{{ url_for('static', filename='images/dog_image.jpg') }}" alt="Monkey Love" />
-            <div id="valentines-message">Happy Valentine's Day Baby!</div>
-        </div>
+    <div id="progress-container">
+      <div id="progress-bar"></div>
     </div>
+  </div>
 
-    <!-- Wanted Poster Modal (New) -->
-    <div id="wanted-poster-modal">
-        <div id="wanted-poster-modal-content">
-            <span id="close-wanted-poster" onclick="closeWantedPoster()">&times;</span>
-            <img src="{{ url_for('static', filename='images/wanted_poster.jpeg') }}" alt="Wanted Poster">
-            <div id="modal-disclaimer">
-                <p>Are you 100000% ready to chat with the Clown Rock Goddess?</p>
-                <button id="modal-kaykay-button" onclick="proceedToChat()">Kay Kay</button>
-            </div>
-        </div>
+  <!-- Chat Screen -->
+  <div id="chat-screen">
+    <div id="chat-container">
+      <h2 id="chat-title">Chat with the Clown Rock Goddess</h2>
+      <div id="chat-log"></div>
+      <input type="text" id="user-input" placeholder="Type your message" onkeypress="handleKeyPress(event)" />
+      <button id="send-button" onclick="sendMessage()">Send</button>
     </div>
+    <div id="illuminated-container">
+      <img id="illuminated-image" src="{{ url_for('static', filename='images/dog_image.jpg') }}" alt="Monkey Love" />
+      <div id="valentines-message">Happy Valentine's Day Baby!</div>
+    </div>
+  </div>
 
-    <script>
-        const backendUrl = "/chat"; // Flask backend endpoint
-        let responseCount = 0;
-        
-        function startLoading() {
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('loading-screen').style.display = 'flex';
+  <!-- Wanted Poster Modal (New) -->
+  <div id="wanted-poster-modal">
+    <div id="wanted-poster-modal-content">
+      <span id="close-wanted-poster" onclick="closeWantedPoster()">&times;</span>
+      <img src="{{ url_for('static', filename='images/wanted_poster.jpeg') }}" alt="Wanted Poster" />
+      <div id="modal-disclaimer">
+        <p>Are you 100000% ready to chat with the Clown Rock Goddess?</p>
+        <button id="modal-kaykay-button" onclick="proceedToChat()">Kay Kay</button>
+      </div>
+    </div>
+  </div>
 
-            const progressBar = document.getElementById("progress-bar");
-            let progress = 0;
+  <script>
+    const backendUrl = "/chat"; // Flask backend endpoint
+    let responseCount = 0;
 
-            const interval = setInterval(() => {
-                progress += 10;
-                progressBar.style.width = progress + "%";
+    function startLoading() {
+      document.getElementById("intro-screen").style.display = "none";
+      document.getElementById("loading-screen").style.display = "flex";
 
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        document.getElementById('loading-screen').style.display = 'none';
-                        document.getElementById('chat-screen').style.display = 'flex';
-                    }, 500);
-                }
-            }, 1000);
+      const progressBar = document.getElementById("progress-bar");
+      let progress = 0;
+
+      const interval = setInterval(() => {
+        progress += 10;
+        progressBar.style.width = progress + "%";
+
+        if (progress >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            document.getElementById("loading-screen").style.display = "none";
+            // Switch audio: stop the intro/loading audio and start chat audio.
+            document.getElementById("intro-loading-audio").pause();
+            document.getElementById("chat-audio").play();
+            document.getElementById("chat-screen").style.display = "flex";
+          }, 500);
         }
+      }, 1000);
+    }
 
-        function sendMessage() {
-            const userInput = document.getElementById("user-input").value;
-            const chatLog = document.getElementById("chat-log");
+    function sendMessage() {
+      const userInput = document.getElementById("user-input").value;
+      const chatLog = document.getElementById("chat-log");
 
-            if (!userInput) return;
+      if (!userInput) return;
 
-            // Add user message to chat log
-            const userMessageElement = document.createElement("div");
-            userMessageElement.classList.add("message", "user-message");
-            userMessageElement.textContent = userInput;
-            chatLog.appendChild(userMessageElement);
+      // Add user message to chat log
+      const userMessageElement = document.createElement("div");
+      userMessageElement.classList.add("message", "user-message");
+      userMessageElement.textContent = userInput;
+      chatLog.appendChild(userMessageElement);
 
-            // Scroll to the latest message
-            chatLog.scrollTop = chatLog.scrollHeight;
+      // Scroll to the latest message
+      chatLog.scrollTop = chatLog.scrollHeight;
 
-            // Send user input to backend
-            fetch(backendUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: userInput })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Add bot response to chat log
-                    const botMessageElement = document.createElement("div");
-                    botMessageElement.classList.add("message", "bot-message");
-                    botMessageElement.textContent = data.response;
-                    chatLog.appendChild(botMessageElement);
+      // Send user input to backend
+      fetch(backendUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userInput })
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Add bot response to chat log
+          const botMessageElement = document.createElement("div");
+          botMessageElement.classList.add("message", "bot-message");
+          botMessageElement.textContent = data.response;
+          chatLog.appendChild(botMessageElement);
 
-                    // Scroll to the latest message
-                    chatLog.scrollTop = chatLog.scrollHeight;
+          // Scroll to the latest message
+          chatLog.scrollTop = chatLog.scrollHeight;
 
-                    // Clear input
-                    document.getElementById("user-input").value = "";
+          // Clear input
+          document.getElementById("user-input").value = "";
 
-                    // Update progress and display Valentine's Day message
-                    responseCount++;
-                    const valentinesMessage = document.getElementById("valentines-message");
-                    const illuminatedImage = document.getElementById("illuminated-image");
-                    const progress = Math.min(100, (responseCount / 10) * 100);
+          // Update progress and display Valentine's Day message
+          responseCount++;
+          const valentinesMessage = document.getElementById("valentines-message");
+          const illuminatedImage = document.getElementById("illuminated-image");
+          const progress = Math.min(100, (responseCount / 10) * 100);
 
-                    illuminatedImage.style.opacity = progress / 100;
+          illuminatedImage.style.opacity = progress / 100;
 
-                    if (responseCount >= 10) {
-                        valentinesMessage.style.display = "block";
-                    }
-                })
-                .catch(err => {
-                    const errorMessageElement = document.createElement("div");
-                    errorMessageElement.classList.add("message", "bot-message");
-                    errorMessageElement.textContent = "Error: Could not connect to the bot.";
-                    chatLog.appendChild(errorMessageElement);
+          if (responseCount >= 10) {
+            valentinesMessage.style.display = "block";
+          }
+        })
+        .catch(err => {
+          const errorMessageElement = document.createElement("div");
+          errorMessageElement.classList.add("message", "bot-message");
+          errorMessageElement.textContent = "Error: Could not connect to the bot.";
+          chatLog.appendChild(errorMessageElement);
 
-                    // Scroll to the latest message
-                    chatLog.scrollTop = chatLog.scrollHeight;
-                });
-        }
+          // Scroll to the latest message
+          chatLog.scrollTop = chatLog.scrollHeight;
+        });
+    }
 
-        function handleKeyPress(event) {
-            if (event.key === "Enter") sendMessage();
-        }
+    function handleKeyPress(event) {
+      if (event.key === "Enter") sendMessage();
+    }
 
-        // New functions for Wanted Poster Modal
-        function openWantedPoster() {
-            document.getElementById("wanted-poster-modal").style.display = "block";
-        }
+    // New functions for Wanted Poster Modal
+    function openWantedPoster() {
+      document.getElementById("wanted-poster-modal").style.display = "block";
+    }
 
-        function closeWantedPoster() {
-            document.getElementById("wanted-poster-modal").style.display = "none";
-        }
+    function closeWantedPoster() {
+      document.getElementById("wanted-poster-modal").style.display = "none";
+    }
 
-        // New function to proceed to the next screen from within the modal
-        function proceedToChat() {
-            closeWantedPoster();
-            startLoading();
-        }
-    </script>
+    // New function to proceed to the next screen from within the modal
+    function proceedToChat() {
+      closeWantedPoster();
+      startLoading();
+    }
+  </script>
 </body>
 </html>
