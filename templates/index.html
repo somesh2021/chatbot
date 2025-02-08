@@ -227,6 +227,45 @@
                 opacity: 1;
             }
         }
+        
+        /* Modal styling for Wanted Poster (New) */
+        #wanted-poster-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+        }
+        
+        #wanted-poster-modal-content {
+            margin: 10% auto;
+            padding: 20px;
+            background: #fff;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            position: relative;
+            text-align: center;
+        }
+        
+        #wanted-poster-modal-content img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        
+        #close-wanted-poster {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #000;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -234,8 +273,12 @@
     <div id="intro-screen">
         <div>
             <h1 id="intro-title">Are you ready to interact with the Clown Rock Goddess?</h1>
-            <div id="disclaimer-box">Please chat with the Clown Rock Goddess at your own risk. The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe (Click below to see her wanted poster!). By clicking Kay Kay below, you consent to being hypnotized by the magical powers of the Clown Rock Goddess and are hereby assuming all liability and responsibility for any physical and mental perils you may be exposed to for the duration of this chat session.</div>
+            <div id="disclaimer-box">
+                Please chat with the Clown Rock Goddess at your own risk. The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe (Click below to see her wanted poster!). By clicking Kay Kay below, you consent to being hypnotized by the magical powers of the Clown Rock Goddess and are hereby assuming all liability and responsibility for any physical and mental perils you may be exposed to for the duration of this chat session.
+            </div>
             <button id="intro-button" onclick="startLoading()">Kay Kay</button>
+            <!-- New Button to Trigger the Wanted Poster Modal -->
+            <button id="wanted-poster-button" onclick="openWantedPoster()">Show Wanted Poster</button>
         </div>
     </div>
 
@@ -262,8 +305,16 @@
             <button id="send-button" onclick="sendMessage()">Send</button>
         </div>
         <div id="illuminated-container">
-                <img id="illuminated-image" src="{{ url_for('static', filename='images/dog_image.jpg') }}" alt="Monkey Love" />
-                <div id="valentines-message">Happy Valentine's Day Baby!</div>
+            <img id="illuminated-image" src="{{ url_for('static', filename='images/dog_image.jpg') }}" alt="Monkey Love" />
+            <div id="valentines-message">Happy Valentine's Day Baby!</div>
+        </div>
+    </div>
+
+    <!-- Wanted Poster Modal (New) -->
+    <div id="wanted-poster-modal">
+        <div id="wanted-poster-modal-content">
+            <span id="close-wanted-poster" onclick="closeWantedPoster()">&times;</span>
+            <img src="{{ url_for('static', filename='images/wanted_poster.jpeg') }}" alt="Wanted Poster">
         </div>
     </div>
 
@@ -351,6 +402,15 @@
 
         function handleKeyPress(event) {
             if (event.key === "Enter") sendMessage();
+        }
+
+        // New functions for Wanted Poster Modal
+        function openWantedPoster() {
+            document.getElementById("wanted-poster-modal").style.display = "block";
+        }
+
+        function closeWantedPoster() {
+            document.getElementById("wanted-poster-modal").style.display = "none";
         }
     </script>
 </body>
