@@ -56,7 +56,8 @@
         }
 
         /* Buttons */
-        #intro-button, #wanted-poster-button, #send-button {
+        /* (Note: The original Kay Kay button has been removed from the intro screen) */
+        #wanted-poster-button, #send-button {
             padding: 10px 20px;
             background-color: #ff6b6b;
             border: none;
@@ -69,7 +70,7 @@
             margin-top: 10px;
         }
 
-        #intro-button:hover, #wanted-poster-button:hover, #send-button:hover {
+        #wanted-poster-button:hover, #send-button:hover {
             background-color: #ff5252;
         }
 
@@ -136,6 +137,8 @@
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             width: 450px;
+            /* New: Set font inside the chatbot box to Calibri */
+            font-family: Calibri, sans-serif;
         }
 
         #chat-title {
@@ -266,6 +269,31 @@
             font-weight: bold;
             cursor: pointer;
         }
+        
+        /* New styling for modal disclaimer and its Kay Kay button */
+        #modal-disclaimer {
+            margin-top: 20px;
+        }
+        #modal-disclaimer p {
+            font-family: 'IM Fell English', serif;
+            font-style: italic;
+            color: #000;
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+        #modal-disclaimer button {
+            padding: 10px 20px;
+            background-color: #ff6b6b;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        #modal-disclaimer button:hover {
+            background-color: #ff5252;
+        }
     </style>
 </head>
 <body>
@@ -274,10 +302,9 @@
         <div>
             <h1 id="intro-title">Are you ready to interact with the Clown Rock Goddess?</h1>
             <div id="disclaimer-box">
-                Please chat with the Clown Rock Goddess at your own risk. The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe (Click below to see her wanted poster!). By clicking Kay Kay below, you consent to being hypnotized by the magical powers of the Clown Rock Goddess and are hereby assuming all liability and responsibility for any physical and mental perils you may be exposed to for the duration of this chat session.
+                Please chat with the Clown Rock Goddess at your own risk. The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe.
             </div>
-            <button id="intro-button" onclick="startLoading()">Kay Kay</button>
-            <!-- New Button to Trigger the Wanted Poster Modal -->
+            <!-- Only the Show Wanted Poster button remains -->
             <button id="wanted-poster-button" onclick="openWantedPoster()">Show Wanted Poster</button>
         </div>
     </div>
@@ -315,12 +342,17 @@
         <div id="wanted-poster-modal-content">
             <span id="close-wanted-poster" onclick="closeWantedPoster()">&times;</span>
             <img src="{{ url_for('static', filename='images/wanted_poster.jpeg') }}" alt="Wanted Poster">
+            <div id="modal-disclaimer">
+                <p>Are you 100000% ready to chat with the Clown Rock Goddess?</p>
+                <button id="modal-kaykay-button" onclick="proceedToChat()">Kay Kay</button>
+            </div>
         </div>
     </div>
 
     <script>
         const backendUrl = "/chat"; // Flask backend endpoint
         let responseCount = 0;
+        
         function startLoading() {
             document.getElementById('intro-screen').style.display = 'none';
             document.getElementById('loading-screen').style.display = 'flex';
@@ -411,6 +443,12 @@
 
         function closeWantedPoster() {
             document.getElementById("wanted-poster-modal").style.display = "none";
+        }
+
+        // New function to proceed to the next screen from within the modal
+        function proceedToChat() {
+            closeWantedPoster();
+            startLoading();
         }
     </script>
 </body>
