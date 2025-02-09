@@ -58,12 +58,11 @@
     /* Chat Screen */
     #chat-screen {
       display: none;
-      position: relative;  /* for absolutely positioned shovel */
+      position: relative;
       justify-content: center;
       align-items: center;
       height: 100vh;
       flex-direction: column;
-      /* Use a dirt background image */
       background-image: url('{{ url_for("static", filename="images/dirt_background.jpeg") }}');
       background-size: cover;
       background-position: center;
@@ -125,7 +124,7 @@
       margin-bottom: 20px;
     }
 
-    /* Progress Bar */
+    /* Progress Bar on Loading Screen */
     #progress-container {
       width: 80%;
       height: 20px;
@@ -142,14 +141,16 @@
       transition: width 0.5s ease;
     }
 
-    /* Chat Container */
+    /* Chat Container (Centered) */
     #chat-container {
+      position: relative;
       background: rgba(0, 0, 0, 0.9);
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
       width: 450px;
       font-family: Calibri, sans-serif;
+      margin: 0 auto;
     }
     #chat-title {
       font-family: 'IM Fell English', serif;
@@ -204,29 +205,37 @@
       outline: none;
     }
 
-    /* Burial Progress Indicator */
-    #burial-progress {
-      font-family: Calibri, sans-serif;
-      font-size: 20px;
-      margin-top: 15px;
-      color: #ff6b6b;
+    /* Burial Progress Bar Container (Outside Chat Container) */
+    #burial-progress-container {
+      width: 80%;
+      height: 20px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 20px auto;
+    }
+    #burial-progress-bar {
+      width: 0%;
+      height: 100%;
+      background-color: yellow;
+      border-radius: 10px;
+      transition: width 0.5s ease;
     }
 
-    /* Shovel Animation */
+    /* Shovel Animation - positioned on right side of chat container and enlarged */
     #shovel {
       position: absolute;
       bottom: 10%;  /* adjust as needed */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px; /* adjust size as needed */
+      right: -120px;  /* adjust so it appears to the right of the container */
+      width: 150px;
       animation: digAnimation 1s infinite;
     }
     @keyframes digAnimation {
-      0% { transform: translateX(-50%) rotate(0deg); }
-      25% { transform: translateX(-50%) rotate(-15deg); }
-      50% { transform: translateX(-50%) rotate(0deg); }
-      75% { transform: translateX(-50%) rotate(15deg); }
-      100% { transform: translateX(-50%) rotate(0deg); }
+      0% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-5px) rotate(-15deg); }
+      50% { transform: translateY(0) rotate(0deg); }
+      75% { transform: translateY(5px) rotate(15deg); }
+      100% { transform: translateY(0) rotate(0deg); }
     }
 
     /* Modal styling for Wanted Poster */
@@ -241,7 +250,6 @@
       overflow: auto;
       background-color: rgba(0, 0, 0, 0.8);
     }
-    /* Larger modal size */
     #wanted-poster-modal-content {
       margin: 5% auto;
       padding: 20px;
@@ -292,11 +300,9 @@
   </style>
 </head>
 <body>
-  <!-- Audio Elements -->
-  <!-- This audio plays on the intro and loading screens (severance.mp3) -->
+  <!-- Audio Element -->
+  <!-- This audio (severance.mp3) plays continuously on all screens -->
   <audio id="intro-loading-audio" src="{{ url_for('static', filename='audio/severance.mp3') }}" loop></audio>
-  <!-- This audio will play on the chat screen (harry_theme.mp3) -->
-  <audio id="chat-audio" src="{{ url_for('static', filename='audio/harry_theme.mp3') }}" loop></audio>
 
   <!-- Pre‑Start (Entry) Screen – Evil Lair -->
   <div id="entry-screen">
@@ -334,16 +340,18 @@ Section 2C:22-1 - Disturbing, desecrating human remains; offenses, hiding a dead
 
   <!-- Chat Screen -->
   <div id="chat-screen">
+    <!-- Burial Progress Bar (Outside Chat Container) -->
+    <div id="burial-progress-container">
+      <div id="burial-progress-bar"></div>
+    </div>
     <div id="chat-container">
       <h2 id="chat-title">Chat with the Clown Rock Goddess</h2>
       <div id="chat-log"></div>
-      <!-- Burial Progress Indicator -->
-      <div id="burial-progress">Burial Progress: 0%</div>
       <input type="text" id="user-input" placeholder="Type your message" onkeypress="handleKeyPress(event)" />
       <button id="send-button" onclick="sendMessage()">Send</button>
+      <!-- Shovel Image placed inside the chat container, positioned on the right -->
+      <img id="shovel" src="{{ url_for('static', filename='images/shovel.png') }}" alt="Shovel" />
     </div>
-    <!-- Shovel Image Overlay with Digging Animation -->
-    <img id="shovel" src="{{ url_for('static', filename='images/shovel.png') }}" alt="Shovel" />
   </div>
 
   <!-- Wanted Poster Modal -->
@@ -366,10 +374,10 @@ Section 2C:22-1 - Disturbing, desecrating human remains; offenses, hiding a dead
     function enterLair() {
       document.getElementById("entry-screen").style.display = "none";
       document.getElementById("intro-screen").style.display = "flex";
-      // Trigger the intro/loading audio immediately.
+      // Trigger the audio immediately.
       const audio = document.getElementById("intro-loading-audio");
       if (audio.paused) {
-        audio.play().catch(err => console.log("Intro audio play failed:", err));
+        audio.play().catch(err => console.log("Audio play failed:", err));
       }
     }
 
@@ -388,9 +396,7 @@ Section 2C:22-1 - Disturbing, desecrating human remains; offenses, hiding a dead
           clearInterval(interval);
           setTimeout(() => {
             document.getElementById("loading-screen").style.display = "none";
-            // Switch audio: stop the intro/loading audio and start chat audio.
-            document.getElementById("intro-loading-audio").pause();
-            document.getElementById("chat-audio").play().catch(err => console.log("Chat audio play failed:", err));
+            // Continue playing the same audio throughout.
             document.getElementById("chat-screen").style.display = "flex";
           }, 500);
         }
@@ -432,21 +438,14 @@ Section 2C:22-1 - Disturbing, desecrating human remains; offenses, hiding a dead
           // Clear input
           document.getElementById("user-input").value = "";
 
-          // Increase response count and update burial progress.
+          // Increase response count and update burial progress bar.
           responseCount++;
           const progressPercentage = Math.min(100, Math.round((responseCount / 50) * 100));
-          document.getElementById("burial-progress").textContent = "Burial Progress: " + progressPercentage + "%";
+          document.getElementById("burial-progress-bar").style.width = progressPercentage + "%";
 
-          // If 50 responses are reached, indicate success and stop the shovel animation.
-          if (responseCount >= 50) {
-            const successMessage = document.createElement("div");
-            successMessage.classList.add("message", "bot-message");
-            successMessage.textContent = "Success! The dead body is successfully hidden.";
-            chatLog.appendChild(successMessage);
-            // Disable further input.
-            document.getElementById("user-input").disabled = true;
-            document.getElementById("send-button").disabled = true;
-            // Pause the shovel animation.
+          // When 50 responses are reached, trigger a congratulations popup and pause shovel animation.
+          if (responseCount === 50) {
+            alert("Congratulations! The dead body is successfully hidden.");
             document.getElementById("shovel").style.animationPlayState = "paused";
           }
         })
