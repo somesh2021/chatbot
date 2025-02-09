@@ -75,7 +75,7 @@
       margin-bottom: 20px;
     }
 
-    /* Italic Body Text for Disclaimer */
+    /* Disclaimer Box (Intro Screen) */
     #disclaimer-box, #loading-title-box {
       font-family: 'IM Fell English', serif;
       font-style: italic;
@@ -140,14 +140,14 @@
       transition: width 0.5s ease;
     }
 
-    /* Burial Progress Bar (Outside Chat Container) */
+    /* Burial Progress Bar (Now BELOW the chat wrapper) */
     #burial-progress-container {
       width: 80%;
       height: 20px;
       background-color: rgba(255, 255, 255, 0.3);
       border-radius: 10px;
       overflow: hidden;
-      margin: 20px auto;
+      margin: 20px auto 0;
     }
     #burial-progress-bar {
       width: 0%;
@@ -157,7 +157,7 @@
       transition: width 0.5s ease;
     }
 
-    /* Chat Wrapper (to hold instructions and chat container side-by-side) */
+    /* Chat Wrapper: holds the instructions box and the chat container */
     #chat-wrapper {
       display: flex;
       flex-direction: row;
@@ -214,7 +214,7 @@
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     }
 
-    /* Chat Log */
+    /* Chat Log - ensure the white box is centered */
     #chat-log {
       border: 2px solid #ff6b6b;
       padding: 10px;
@@ -223,7 +223,7 @@
       overflow-y: auto;
       background: rgba(255, 255, 255, 0.9);
       color: #000;
-      margin-bottom: 10px;
+      margin: 0 auto 10px;
       border-radius: 10px;
       display: flex;
       flex-direction: column;
@@ -293,7 +293,6 @@
       font-weight: bold;
       cursor: pointer;
     }
-    /* Modal disclaimer styling */
     #modal-disclaimer {
       margin-top: 20px;
     }
@@ -372,8 +371,7 @@
   </style>
 </head>
 <body>
-  <!-- Audio Element -->
-  <!-- This audio (severance.mp3) plays continuously on all screens -->
+  <!-- Audio Element (severance.mp3 plays continuously) -->
   <audio id="intro-loading-audio" src="{{ url_for('static', filename='audio/severance.mp3') }}" loop></audio>
 
   <!-- Pre‑Start (Entry) Screen – Evil Lair -->
@@ -412,10 +410,6 @@
 
   <!-- Chat Screen -->
   <div id="chat-screen">
-    <!-- Burial Progress Bar (Outside Chat Wrapper) -->
-    <div id="burial-progress-container">
-      <div id="burial-progress-bar"></div>
-    </div>
     <!-- Chat Wrapper: contains the instructions box and the chat container -->
     <div id="chat-wrapper">
       <!-- Instructions Box -->
@@ -436,6 +430,10 @@
         <input type="text" id="user-input" placeholder="Type your message" onkeypress="handleKeyPress(event)" />
         <button id="send-button" onclick="sendMessage()">Send</button>
       </div>
+    </div>
+    <!-- Burial Progress Bar (Now BELOW the chat wrapper) -->
+    <div id="burial-progress-container">
+      <div id="burial-progress-bar"></div>
     </div>
   </div>
 
@@ -575,7 +573,7 @@
       document.getElementById("congrats-modal").style.display = "none";
     }
     function viewOfferLetter() {
-      // For now, we simply alert or you may redirect to another page.
+      // For now, we simply alert or redirect as needed.
       alert("Offer Letter Coming Soon!");
     }
   </script>
