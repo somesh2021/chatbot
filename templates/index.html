@@ -24,7 +24,6 @@
       align-items: center;
       height: 100vh;
       flex-direction: column;
-      /* Use the starting_background.jpeg image */
       background-image: url('{{ url_for("static", filename="images/starting_background.jpeg") }}');
       background-size: cover;
       background-position: center;
@@ -37,19 +36,38 @@
       align-items: center;
       height: 100vh;
       flex-direction: column;
-      /* Use the same starting_background.jpeg image */
       background-image: url('{{ url_for("static", filename="images/background_2.jpeg") }}');
       background-size: cover;
       background-position: center;
     }
 
-    /* Loading and Chat Screens */
-    #loading-screen, #chat-screen {
+    /* Loading Screen */
+    #loading-screen {
       display: none;
       justify-content: center;
       align-items: center;
       height: 100vh;
       flex-direction: column;
+      background-image: url('{{ url_for("static", filename="images/space_ocean.jpeg") }}');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+    }
+
+    /* Chat Screen */
+    #chat-screen {
+      display: none;
+      position: relative;  /* for absolutely positioned shovel */
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      /* Use a dirt background image */
+      background-image: url('{{ url_for("static", filename="images/dirt_background.jpeg") }}');
+      background-size: cover;
+      background-position: center;
+      color: white;
     }
 
     /* Title Styling */
@@ -90,20 +108,11 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
       margin-top: 10px;
     }
-
     #wanted-poster-button:hover, #send-button:hover, #enter-button:hover {
       background-color: #ff5252;
     }
 
-    /* Loading Screen */
-    #loading-screen {
-      background-image: url('{{ url_for("static", filename="images/space_ocean.jpeg") }}');
-      background-size: cover;
-      background-position: center;
-      color: white;
-      text-align: center;
-    }
-
+    /* Loading Title Box */
     #loading-title-box {
       font-family: 'IM Fell English', serif;
       font-style: italic;
@@ -125,7 +134,6 @@
       overflow: hidden;
       margin-top: 20px;
     }
-
     #progress-bar {
       width: 0%;
       height: 100%;
@@ -134,24 +142,15 @@
       transition: width 0.5s ease;
     }
 
-    /* Chat Screen */
-    #chat-screen {
-      background-image: url('{{ url_for("static", filename="images/monkey_background.jpeg") }}');
-      background-size: cover;
-      background-position: center;
-      color: white;
-    }
-
+    /* Chat Container */
     #chat-container {
       background: rgba(0, 0, 0, 0.9);
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
       width: 450px;
-      /* Set font inside the chatbot box to Calibri */
       font-family: Calibri, sans-serif;
     }
-
     #chat-title {
       font-family: 'IM Fell English', serif;
       font-size: 24px;
@@ -176,7 +175,6 @@
       flex-direction: column;
       gap: 10px;
     }
-
     .message {
       max-width: 70%;
       padding: 10px;
@@ -184,13 +182,11 @@
       font-size: 14px;
       line-height: 1.5;
     }
-
     .user-message {
       background-color: #d1e7ff;
       align-self: flex-end;
       color: #000;
     }
-
     .bot-message {
       background-color: #f1f1f1;
       align-self: flex-start;
@@ -208,34 +204,29 @@
       outline: none;
     }
 
-    #illuminated-container {
-      position: relative;
-      max-width: 400px;
-    }
-
-    #illuminated-image {
-      width: 100%;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
-      border-radius: 15px;
-    }
-
-    #valentines-message {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    /* Burial Progress Indicator */
+    #burial-progress {
+      font-family: Calibri, sans-serif;
+      font-size: 20px;
+      margin-top: 15px;
       color: #ff6b6b;
-      font-size: 28px;
-      font-weight: bold;
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-      display: none;
-      animation: fadeIn 2s ease-in-out forwards;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    /* Shovel Animation */
+    #shovel {
+      position: absolute;
+      bottom: 10%;  /* adjust as needed */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px; /* adjust size as needed */
+      animation: digAnimation 1s infinite;
+    }
+    @keyframes digAnimation {
+      0% { transform: translateX(-50%) rotate(0deg); }
+      25% { transform: translateX(-50%) rotate(-15deg); }
+      50% { transform: translateX(-50%) rotate(0deg); }
+      75% { transform: translateX(-50%) rotate(15deg); }
+      100% { transform: translateX(-50%) rotate(0deg); }
     }
 
     /* Modal styling for Wanted Poster */
@@ -250,7 +241,6 @@
       overflow: auto;
       background-color: rgba(0, 0, 0, 0.8);
     }
-
     /* Larger modal size */
     #wanted-poster-modal-content {
       margin: 5% auto;
@@ -262,12 +252,10 @@
       position: relative;
       text-align: center;
     }
-
     #wanted-poster-modal-content img {
       width: 100%;
       border-radius: 10px;
     }
-
     #close-wanted-poster {
       position: absolute;
       top: 10px;
@@ -277,12 +265,10 @@
       font-weight: bold;
       cursor: pointer;
     }
-
     /* Modal disclaimer styling */
     #modal-disclaimer {
       margin-top: 20px;
     }
-
     #modal-disclaimer p {
       font-family: 'IM Fell English', serif;
       font-style: italic;
@@ -290,7 +276,6 @@
       margin: 0 0 10px;
       font-size: 18px;
     }
-
     #modal-disclaimer button {
       padding: 10px 20px;
       background-color: #ff6b6b;
@@ -301,7 +286,6 @@
       border-radius: 10px;
       cursor: pointer;
     }
-
     #modal-disclaimer button:hover {
       background-color: #ff5252;
     }
@@ -317,7 +301,7 @@
   <!-- Pre‑Start (Entry) Screen – Evil Lair -->
   <div id="entry-screen">
     <div>
-      <h1 id="entry-title">Are you ready to enter the evil lair of the Clown Rock Goddess?</h1>
+      <h1 id="entry-title">Are you ready to join forces with the Clown Rock Goddess?</h1>
       <button id="enter-button" onclick="enterLair()">yea yea</button>
     </div>
   </div>
@@ -325,9 +309,10 @@
   <!-- Intro Screen with Disclaimer -->
   <div id="intro-screen">
     <div>
-      <h1 id="intro-title">Are you ready to interact with the Clown Rock Goddess?</h1>
+      <h1 id="intro-title">Are you ready for your interview?</h1>
       <div id="disclaimer-box">
-        Please chat with the Clown Rock Goddess at your own risk. The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe.
+        The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe. This interview consists of you helping the Clown Rock Goddess with hiding a dead body. Please be advised that under The New Jersey Code of Criminal Justice
+Section 2C:22-1 - Disturbing, desecrating human remains; offenses, hiding a dead body is a felony offense. By accepting to this interview, you will be committing a felony offense, but please be reassured that this will only help your chances as the Clown Rock Goddess loves felonies. Please view her wanted poster below and proceed.
       </div>
       <button id="wanted-poster-button" onclick="openWantedPoster()">Show Wanted Poster</button>
     </div>
@@ -352,13 +337,13 @@
     <div id="chat-container">
       <h2 id="chat-title">Chat with the Clown Rock Goddess</h2>
       <div id="chat-log"></div>
+      <!-- Burial Progress Indicator -->
+      <div id="burial-progress">Burial Progress: 0%</div>
       <input type="text" id="user-input" placeholder="Type your message" onkeypress="handleKeyPress(event)" />
       <button id="send-button" onclick="sendMessage()">Send</button>
     </div>
-    <div id="illuminated-container">
-      <img id="illuminated-image" src="{{ url_for('static', filename='images/dog_image.jpg') }}" alt="Monkey Love" />
-      <div id="valentines-message">Happy Valentine's Day Baby!</div>
-    </div>
+    <!-- Shovel Image Overlay with Digging Animation -->
+    <img id="shovel" src="{{ url_for('static', filename='images/shovel.png') }}" alt="Shovel" />
   </div>
 
   <!-- Wanted Poster Modal -->
@@ -367,7 +352,7 @@
       <span id="close-wanted-poster" onclick="closeWantedPoster()">&times;</span>
       <img src="{{ url_for('static', filename='images/wanted_poster.jpeg') }}" alt="Wanted Poster" />
       <div id="modal-disclaimer">
-        <p>Are you 100000% ready to chat with the Clown Rock Goddess?</p>
+        <p>Are you 100000% ready to interview for the Clown Rock Goddess? Once again, by clicking Kay Kay, you assume all legal responsibility for the felony offense you are about to commit and resolve the Clown Rock Goddess or the Clown Rock Goddess Organization (CRG herself, Bluey, Winnie, Monkey 2) of any legal liability.</p>
         <button id="modal-kaykay-button" onclick="proceedToChat()">Kay Kay</button>
       </div>
     </div>
@@ -447,16 +432,22 @@
           // Clear input
           document.getElementById("user-input").value = "";
 
-          // Update progress and display Valentine's Day message
+          // Increase response count and update burial progress.
           responseCount++;
-          const valentinesMessage = document.getElementById("valentines-message");
-          const illuminatedImage = document.getElementById("illuminated-image");
-          const progress = Math.min(100, (responseCount / 10) * 100);
+          const progressPercentage = Math.min(100, Math.round((responseCount / 50) * 100));
+          document.getElementById("burial-progress").textContent = "Burial Progress: " + progressPercentage + "%";
 
-          illuminatedImage.style.opacity = progress / 100;
-
-          if (responseCount >= 10) {
-            valentinesMessage.style.display = "block";
+          // If 50 responses are reached, indicate success and stop the shovel animation.
+          if (responseCount >= 50) {
+            const successMessage = document.createElement("div");
+            successMessage.classList.add("message", "bot-message");
+            successMessage.textContent = "Success! The dead body is successfully hidden.";
+            chatLog.appendChild(successMessage);
+            // Disable further input.
+            document.getElementById("user-input").disabled = true;
+            document.getElementById("send-button").disabled = true;
+            // Pause the shovel animation.
+            document.getElementById("shovel").style.animationPlayState = "paused";
           }
         })
         .catch(err => {
@@ -464,8 +455,6 @@
           errorMessageElement.classList.add("message", "bot-message");
           errorMessageElement.textContent = "Error: Could not connect to the bot.";
           chatLog.appendChild(errorMessageElement);
-
-          // Scroll to the latest message
           chatLog.scrollTop = chatLog.scrollHeight;
         });
     }
@@ -478,11 +467,9 @@
     function openWantedPoster() {
       document.getElementById("wanted-poster-modal").style.display = "block";
     }
-
     function closeWantedPoster() {
       document.getElementById("wanted-poster-modal").style.display = "none";
     }
-
     function proceedToChat() {
       closeWantedPoster();
       startLoading();
