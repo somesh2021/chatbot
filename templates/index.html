@@ -17,6 +17,17 @@
       background-color: black;
     }
 
+    /* New: Pre-Start (Entry) Screen */
+    #entry-screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      background-color: black;
+    }
+
+    /* Existing Screens */
     #intro-screen, #loading-screen, #chat-screen {
       display: none;
       justify-content: center;
@@ -26,12 +37,11 @@
     }
 
     #intro-screen {
-      display: flex;
       background-color: black;
     }
 
     /* Title Styling */
-    #intro-title, #chat-title, #loading-title {
+    #entry-title, #intro-title, #chat-title, #loading-title {
       font-family: 'IM Fell English', serif;
       font-size: 28px;
       margin-bottom: 20px;
@@ -56,8 +66,8 @@
     }
 
     /* Buttons */
-    /* (Note: The original Kay Kay button has been removed from the intro screen) */
-    #wanted-poster-button, #send-button {
+    /* (Note: The original Kay Kay button on the intro screen has been removed) */
+    #wanted-poster-button, #send-button, #enter-button {
       padding: 10px 20px;
       background-color: #ff6b6b;
       border: none;
@@ -70,17 +80,12 @@
       margin-top: 10px;
     }
 
-    #wanted-poster-button:hover, #send-button:hover {
+    #wanted-poster-button:hover, #send-button:hover, #enter-button:hover {
       background-color: #ff5252;
     }
 
     /* Loading Screen */
     #loading-screen {
-      display: none;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
       background-image: url('{{ url_for("static", filename="images/space_ocean.jpeg") }}');
       background-size: cover;
       background-position: center;
@@ -120,11 +125,6 @@
 
     /* Chat Screen */
     #chat-screen {
-      display: none;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
       background-image: url('{{ url_for("static", filename="images/monkey_background.jpeg") }}');
       background-size: cover;
       background-position: center;
@@ -137,7 +137,7 @@
       border-radius: 15px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
       width: 450px;
-      /* New: Set font inside the chatbot box to Calibri */
+      /* Set font inside the chatbot box to Calibri */
       font-family: Calibri, sans-serif;
     }
 
@@ -307,6 +307,14 @@
   <!-- This audio will play on the chat screen -->
   <audio id="chat-audio" src="{{ url_for('static', filename='audio/harry_theme.mp3') }}" loop></audio>
 
+  <!-- New: Pre-Start (Entry) Screen -->
+  <div id="entry-screen">
+    <div>
+      <h1 id="entry-title">Are you ready to enter the evil lair of the Clown Rock Goddess?</h1>
+      <button id="enter-button" onclick="enterLair()">yea yea</button>
+    </div>
+  </div>
+
   <!-- Intro Screen -->
   <div id="intro-screen">
     <div>
@@ -363,13 +371,16 @@
     const backendUrl = "/chat"; // Flask backend endpoint
     let responseCount = 0;
 
-    // Trigger intro/loading audio when user clicks anywhere on the intro screen
-    document.getElementById("intro-screen").addEventListener("click", function () {
-      var audio = document.getElementById("intro-loading-audio");
+    // New function: triggered when the "yea yea" button is clicked on the entry screen.
+    function enterLair() {
+      document.getElementById("entry-screen").style.display = "none";
+      document.getElementById("intro-screen").style.display = "flex";
+      // Trigger the intro/loading audio immediately.
+      const audio = document.getElementById("intro-loading-audio");
       if (audio.paused) {
         audio.play().catch(err => console.log("Intro audio play failed:", err));
       }
-    });
+    }
 
     function startLoading() {
       document.getElementById("intro-screen").style.display = "none";
@@ -457,7 +468,7 @@
       if (event.key === "Enter") sendMessage();
     }
 
-    // New functions for Wanted Poster Modal
+    // Functions for Wanted Poster Modal
     function openWantedPoster() {
       document.getElementById("wanted-poster-modal").style.display = "block";
     }
@@ -466,7 +477,6 @@
       document.getElementById("wanted-poster-modal").style.display = "none";
     }
 
-    // New function to proceed to the next screen from within the modal
     function proceedToChat() {
       closeWantedPoster();
       startLoading();
