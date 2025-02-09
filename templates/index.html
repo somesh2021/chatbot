@@ -38,12 +38,12 @@
       height: 100vh;
       flex-direction: column;
       /* Use the same starting_background.jpeg image */
-      background-image: url('{{ url_for("static", filename="images/starting_background.jpeg") }}');
+      background-image: url('{{ url_for("static", filename="images/background_2.jpeg") }}');
       background-size: cover;
       background-position: center;
     }
 
-    /* Loading Screen */
+    /* Loading and Chat Screens */
     #loading-screen, #chat-screen {
       display: none;
       justify-content: center;
@@ -78,7 +78,6 @@
     }
 
     /* Buttons */
-    /* (Note: The original Kay Kay button on the intro screen has been removed) */
     #wanted-poster-button, #send-button, #enter-button {
       padding: 10px 20px;
       background-color: #ff6b6b;
@@ -178,7 +177,6 @@
       gap: 10px;
     }
 
-    /* iMessage Style */
     .message {
       max-width: 70%;
       padding: 10px;
@@ -253,12 +251,13 @@
       background-color: rgba(0, 0, 0, 0.8);
     }
 
+    /* Larger modal size */
     #wanted-poster-modal-content {
-      margin: 10% auto;
+      margin: 5% auto;
       padding: 20px;
       background: #fff;
-      width: 80%;
-      max-width: 600px;
+      width: 90%;
+      max-width: 1000px;
       border-radius: 10px;
       position: relative;
       text-align: center;
@@ -310,9 +309,9 @@
 </head>
 <body>
   <!-- Audio Elements -->
-  <!-- This audio plays on the intro and loading screens -->
+  <!-- This audio plays on the intro and loading screens (severance.mp3) -->
   <audio id="intro-loading-audio" src="{{ url_for('static', filename='audio/severance.mp3') }}" loop></audio>
-  <!-- This audio will play on the chat screen -->
+  <!-- This audio will play on the chat screen (harry_theme.mp3) -->
   <audio id="chat-audio" src="{{ url_for('static', filename='audio/harry_theme.mp3') }}" loop></audio>
 
   <!-- Pre‑Start (Entry) Screen – Evil Lair -->
