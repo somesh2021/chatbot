@@ -17,27 +17,39 @@
       background-color: black;
     }
 
-    /* New: Pre-Start (Entry) Screen */
+    /* Pre‑Start (Entry) Screen – Evil Lair */
     #entry-screen {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       flex-direction: column;
-      background-color: black;
+      /* Use the starting_background.jpeg image */
+      background-image: url('{{ url_for("static", filename="images/starting_background.jpeg") }}');
+      background-size: cover;
+      background-position: center;
     }
 
-    /* Existing Screens */
-    #intro-screen, #loading-screen, #chat-screen {
+    /* Intro Screen with Disclaimer */
+    #intro-screen {
       display: none;
       justify-content: center;
       align-items: center;
       height: 100vh;
       flex-direction: column;
+      /* Use the same starting_background.jpeg image */
+      background-image: url('{{ url_for("static", filename="images/starting_background.jpeg") }}');
+      background-size: cover;
+      background-position: center;
     }
 
-    #intro-screen {
-      background-color: black;
+    /* Loading Screen */
+    #loading-screen, #chat-screen {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
     }
 
     /* Title Styling */
@@ -224,15 +236,11 @@
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    /* Modal styling for Wanted Poster (New) */
+    /* Modal styling for Wanted Poster */
     #wanted-poster-modal {
       display: none;
       position: fixed;
@@ -271,7 +279,7 @@
       cursor: pointer;
     }
 
-    /* New styling for modal disclaimer and its Kay Kay button */
+    /* Modal disclaimer styling */
     #modal-disclaimer {
       margin-top: 20px;
     }
@@ -303,11 +311,11 @@
 <body>
   <!-- Audio Elements -->
   <!-- This audio plays on the intro and loading screens -->
-  <audio id="intro-loading-audio" src="{{ url_for('static', filename='audio/severance.mp3') }}" loop></audio>
+  <audio id="intro-loading-audio" src="{{ url_for('static', filename='audio/starting_loading.mp3') }}" loop></audio>
   <!-- This audio will play on the chat screen -->
-  <audio id="chat-audio" src="{{ url_for('static', filename='audio/harry_theme.mp3') }}" loop></audio>
+  <audio id="chat-audio" src="{{ url_for('static', filename='audio/chat.mp3') }}" loop></audio>
 
-  <!-- New: Pre-Start (Entry) Screen -->
+  <!-- Pre‑Start (Entry) Screen – Evil Lair -->
   <div id="entry-screen">
     <div>
       <h1 id="entry-title">Are you ready to enter the evil lair of the Clown Rock Goddess?</h1>
@@ -315,14 +323,13 @@
     </div>
   </div>
 
-  <!-- Intro Screen -->
+  <!-- Intro Screen with Disclaimer -->
   <div id="intro-screen">
     <div>
       <h1 id="intro-title">Are you ready to interact with the Clown Rock Goddess?</h1>
       <div id="disclaimer-box">
         Please chat with the Clown Rock Goddess at your own risk. The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe.
       </div>
-      <!-- Only the Show Wanted Poster button remains -->
       <button id="wanted-poster-button" onclick="openWantedPoster()">Show Wanted Poster</button>
     </div>
   </div>
@@ -355,7 +362,7 @@
     </div>
   </div>
 
-  <!-- Wanted Poster Modal (New) -->
+  <!-- Wanted Poster Modal -->
   <div id="wanted-poster-modal">
     <div id="wanted-poster-modal-content">
       <span id="close-wanted-poster" onclick="closeWantedPoster()">&times;</span>
@@ -371,7 +378,7 @@
     const backendUrl = "/chat"; // Flask backend endpoint
     let responseCount = 0;
 
-    // New function: triggered when the "yea yea" button is clicked on the entry screen.
+    // Function triggered when the "yea yea" button is clicked on the entry screen.
     function enterLair() {
       document.getElementById("entry-screen").style.display = "none";
       document.getElementById("intro-screen").style.display = "flex";
