@@ -58,7 +58,6 @@
     /* Chat Screen */
     #chat-screen {
       display: none;
-      position: relative;
       justify-content: center;
       align-items: center;
       height: 100vh;
@@ -76,7 +75,7 @@
       margin-bottom: 20px;
     }
 
-    /* Italic Body Text */
+    /* Italic Body Text for Disclaimer */
     #disclaimer-box, #loading-title-box {
       font-family: 'IM Fell English', serif;
       font-style: italic;
@@ -141,9 +140,63 @@
       transition: width 0.5s ease;
     }
 
-    /* Chat Container (Centered) */
+    /* Burial Progress Bar (Outside Chat Container) */
+    #burial-progress-container {
+      width: 80%;
+      height: 20px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 20px auto;
+    }
+    #burial-progress-bar {
+      width: 0%;
+      height: 100%;
+      background-color: yellow;
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
+
+    /* Chat Wrapper (to hold instructions and chat container side-by-side) */
+    #chat-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Instructions Box */
+    #instructions-box {
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #ff6b6b;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 300px;
+      color: #ff6b6b;
+      text-align: left;
+      font-size: 16px;
+    }
+    #instructions-box h2 {
+      font-family: 'IM Fell English', serif;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    #instructions-box ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+    #instructions-box li {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      margin-bottom: 5px;
+    }
+
+    /* Chat Container */
     #chat-container {
-      position: relative;
       background: rgba(0, 0, 0, 0.9);
       padding: 20px;
       border-radius: 15px;
@@ -205,40 +258,7 @@
       outline: none;
     }
 
-    /* Burial Progress Bar Container (Outside Chat Container) */
-    #burial-progress-container {
-      width: 80%;
-      height: 20px;
-      background-color: rgba(255, 255, 255, 0.3);
-      border-radius: 10px;
-      overflow: hidden;
-      margin: 20px auto;
-    }
-    #burial-progress-bar {
-      width: 0%;
-      height: 100%;
-      background-color: yellow;
-      border-radius: 10px;
-      transition: width 0.5s ease;
-    }
-
-    /* Shovel Animation - positioned on right side of chat container and enlarged */
-    #shovel {
-      position: absolute;
-      bottom: 10%;  /* adjust as needed */
-      right: -120px;  /* adjust so it appears to the right of the container */
-      width: 150px;
-      animation: digAnimation 1s infinite;
-    }
-    @keyframes digAnimation {
-      0% { transform: translateY(0) rotate(0deg); }
-      25% { transform: translateY(-5px) rotate(-15deg); }
-      50% { transform: translateY(0) rotate(0deg); }
-      75% { transform: translateY(5px) rotate(15deg); }
-      100% { transform: translateY(0) rotate(0deg); }
-    }
-
-    /* Modal styling for Wanted Poster */
+    /* Modal styling for Wanted Poster (kept as-is) */
     #wanted-poster-modal {
       display: none;
       position: fixed;
@@ -297,6 +317,58 @@
     #modal-disclaimer button:hover {
       background-color: #ff5252;
     }
+
+    /* Modal styling for Congratulations Modal */
+    #congrats-modal {
+      display: none;
+      position: fixed;
+      z-index: 1100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    #congrats-modal-content {
+      margin: 5% auto;
+      padding: 20px;
+      background: #fff;
+      width: 90%;
+      max-width: 1000px;
+      border-radius: 10px;
+      position: relative;
+      text-align: center;
+    }
+    #congrats-modal-content p {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: #000;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    #offer-letter-button {
+      padding: 10px 20px;
+      background-color: #ff6b6b;
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    #offer-letter-button:hover {
+      background-color: #ff5252;
+    }
+    #close-congrats-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #000;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -317,8 +389,8 @@
     <div>
       <h1 id="intro-title">Are you ready for your interview?</h1>
       <div id="disclaimer-box">
-        The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe. This interview consists of you helping the Clown Rock Goddess with hiding a dead body. Please be advised that under The New Jersey Code of Criminal Justice
-Section 2C:22-1 - Disturbing, desecrating human remains; offenses, hiding a dead body is a felony offense. By accepting to this interview, you will be committing a felony offense, but please be reassured that this will only help your chances as the Clown Rock Goddess loves felonies. Please view her wanted poster below and proceed.
+        The Clown Rock Goddess is a notorious sorceress that is proven to prey on innocent brains and brainwash them into aiding and abetting serious crimes, such as murder. She is known by various aliases, such as Varalika Varanasi, Vivi, Monkey 1, and Speedster. She is currently wanted for sorcery in all 195 countries of Planet Earth and countless more across the universe. This interview consists of you chatting with a simulated version of the CRG.<br>
+        By accepting this interview, you may be subject to any number of criminal penalties, but please be reassured that this will only help your chances as the Clown Rock Goddess loves crimes. Please view her wanted poster below and proceed with caution.
       </div>
       <button id="wanted-poster-button" onclick="openWantedPoster()">Show Wanted Poster</button>
     </div>
@@ -328,8 +400,8 @@ Section 2C:22-1 - Disturbing, desecrating human remains; offenses, hiding a dead
   <div id="loading-screen">
     <div id="loading-title-box">
       <h1 id="loading-title">
-        Signal going through the deepest oceans<br />
-        and through the seabed<br />
+        Signal going through the deepest oceans<br>
+        and through the seabed<br>
         to connect with a satellite in space
       </h1>
     </div>
@@ -340,17 +412,30 @@ Section 2C:22-1 - Disturbing, desecrating human remains; offenses, hiding a dead
 
   <!-- Chat Screen -->
   <div id="chat-screen">
-    <!-- Burial Progress Bar (Outside Chat Container) -->
+    <!-- Burial Progress Bar (Outside Chat Wrapper) -->
     <div id="burial-progress-container">
       <div id="burial-progress-bar"></div>
     </div>
-    <div id="chat-container">
-      <h2 id="chat-title">Chat with the Clown Rock Goddess</h2>
-      <div id="chat-log"></div>
-      <input type="text" id="user-input" placeholder="Type your message" onkeypress="handleKeyPress(event)" />
-      <button id="send-button" onclick="sendMessage()">Send</button>
-      <!-- Shovel Image placed inside the chat container, positioned on the right -->
-      <img id="shovel" src="{{ url_for('static', filename='images/shovel.png') }}" alt="Shovel" />
+    <!-- Chat Wrapper: contains the instructions box and the chat container -->
+    <div id="chat-wrapper">
+      <!-- Instructions Box -->
+      <div id="instructions-box">
+        <h2>Instructions</h2>
+        <ul>
+          <li>Please chat with a simulated version of the Clown Rock Goddess.</li>
+          <li>Each submission will push your progress forward in this interview and will also be simultaneously performing a task in the real world.</li>
+          <li>You must continue chatting with the chatbot till task completion no matter how repetitive or annoying the responses get.</li>
+          <li>You may enter anything you want in the chatbot.</li>
+          <li>Good luck!</li>
+        </ul>
+      </div>
+      <!-- Chat Container -->
+      <div id="chat-container">
+        <h2 id="chat-title">Clown Rock Goddess Break Room</h2>
+        <div id="chat-log"></div>
+        <input type="text" id="user-input" placeholder="Type your message" onkeypress="handleKeyPress(event)" />
+        <button id="send-button" onclick="sendMessage()">Send</button>
+      </div>
     </div>
   </div>
 
@@ -360,9 +445,18 @@ Section 2C:22-1 - Disturbing, desecrating human remains; offenses, hiding a dead
       <span id="close-wanted-poster" onclick="closeWantedPoster()">&times;</span>
       <img src="{{ url_for('static', filename='images/wanted_poster.jpeg') }}" alt="Wanted Poster" />
       <div id="modal-disclaimer">
-        <p>Are you 100000% ready to interview for the Clown Rock Goddess? Once again, by clicking Kay Kay, you assume all legal responsibility for the felony offense you are about to commit and resolve the Clown Rock Goddess or the Clown Rock Goddess Organization (CRG herself, Bluey, Winnie, Monkey 2) of any legal liability.</p>
+        <p>Are you 100000% ready to interview for the Clown Rock Goddess? Once again, by clicking Kay Kay, you assume all legal responsibility for any offenses you are about to commit and resolve the Clown Rock Goddess or the Clown Rock Goddess Organization (CRG herself, Bluey, Winnie, Monkey 2) of any legal liability.</p>
         <button id="modal-kaykay-button" onclick="proceedToChat()">Kay Kay</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Congratulations Modal (Triggered at 50 responses) -->
+  <div id="congrats-modal">
+    <div id="congrats-modal-content">
+      <span id="close-congrats-modal" onclick="closeCongratsModal()">&times;</span>
+      <p>Congratulations, you successfully helped bury a dead body in the woods! The Clown Rock Goddess Organization is pleased with your performance and the Chief Technical Officer of the CRG Organization, Monkey 2, would like to invite you to join our organization. Please view our congratulatory note below.</p>
+      <button id="offer-letter-button" onclick="viewOfferLetter()">View Offer Letter</button>
     </div>
   </div>
 
@@ -443,10 +537,9 @@ Section 2C:22-1 - Disturbing, desecrating human remains; offenses, hiding a dead
           const progressPercentage = Math.min(100, Math.round((responseCount / 50) * 100));
           document.getElementById("burial-progress-bar").style.width = progressPercentage + "%";
 
-          // When 50 responses are reached, trigger a congratulations popup and pause shovel animation.
+          // When 50 responses are reached, trigger the congratulations modal.
           if (responseCount === 50) {
-            alert("Congratulations! The dead body is successfully hidden.");
-            document.getElementById("shovel").style.animationPlayState = "paused";
+            openCongratsModal();
           }
         })
         .catch(err => {
@@ -472,6 +565,18 @@ Section 2C:22-1 - Disturbing, desecrating human remains; offenses, hiding a dead
     function proceedToChat() {
       closeWantedPoster();
       startLoading();
+    }
+
+    // Functions for Congratulations Modal
+    function openCongratsModal() {
+      document.getElementById("congrats-modal").style.display = "block";
+    }
+    function closeCongratsModal() {
+      document.getElementById("congrats-modal").style.display = "none";
+    }
+    function viewOfferLetter() {
+      // For now, we simply alert or you may redirect to another page.
+      alert("Offer Letter Coming Soon!");
     }
   </script>
 </body>
