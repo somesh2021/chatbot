@@ -35,7 +35,8 @@ fallback_responses = [
     "whatever", 
     "Sleep?",
     "You raccoon",
-    "ur a nincompoop"
+    "ur a nincompoop",
+    "whatever broski"
 ]
 
 # GPT classification
