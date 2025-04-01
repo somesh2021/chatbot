@@ -368,7 +368,7 @@
       font-weight: bold;
       cursor: pointer;
     }
-    /* Offer Letter Modal */
+    /* Offer Letter YouTube Modal */
     #offer-letter-modal {
       display: none;
       position: fixed;
@@ -399,6 +399,7 @@
       font-weight: bold;
       cursor: pointer;
     }
+
 
   </style>
 </head>
@@ -493,11 +494,11 @@
   <div id="offer-letter-modal">
     <div id="offer-letter-modal-content">
       <span id="close-offer-letter-modal" onclick="closeOfferLetterModal()">&times;</span>
-      <video id="offer-letter-video" width="100%" controls>
-        <source src="{{ url_for('static', filename='audio/1 year.mp4') }}" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+      <iframe id="offer-letter-iframe" width="100%" height="500" frameborder="0"
+        allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
+  </div>
+
   </div>
 
   <script>
@@ -616,21 +617,32 @@
     }
     
     function viewOfferLetter() {
+      const modal = document.getElementById("offer-letter-modal");
+      const iframe = document.getElementById("offer-letter-iframe");
+    
+      modal.style.display = "block";
+    
+      // Replace YOUR_VIDEO_ID with your actual YouTube video ID
+      iframe.src = "https://www.youtube.com/embed/9jkOFUevorc?autoplay=1";
+    
+      // Pause background audio
       const backgroundAudio = document.getElementById("intro-loading-audio");
       backgroundAudio.pause();
-      document.getElementById("offer-letter-modal").style.display = "block";
-      const video = document.getElementById("offer-letter-video");
-      video.currentTime = 0;
-      video.play();
-      
 }
+
     function closeOfferLetterModal() {
-      const video = document.getElementById("offer-letter-video");
-      video.pause();
-      document.getElementById("offer-letter-modal").style.display = "none";
+      const modal = document.getElementById("offer-letter-modal");
+      const iframe = document.getElementById("offer-letter-iframe");
+    
+      modal.style.display = "none";
+    
+      // Stop the video
+      iframe.src = "";
+    
+      // Resume background audio
       const backgroundAudio = document.getElementById("intro-loading-audio");
       backgroundAudio.play().catch(err => console.log("Audio resume failed:", err));
-}
+    }
 
 
   </script>
