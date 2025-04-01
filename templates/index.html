@@ -368,6 +368,38 @@
       font-weight: bold;
       cursor: pointer;
     }
+    /* Offer Letter Modal */
+    #offer-letter-modal {
+      display: none;
+      position: fixed;
+      z-index: 1200;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    #offer-letter-modal-content {
+      margin: 5% auto;
+      padding: 20px;
+      background: #fff;
+      width: 90%;
+      max-width: 1000px;
+      border-radius: 10px;
+      position: relative;
+      text-align: center;
+    }
+    #close-offer-letter-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #000;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 <body>
@@ -455,6 +487,16 @@
       <span id="close-congrats-modal" onclick="closeCongratsModal()">&times;</span>
       <p>Congratulations, you successfully helped bury a dead body in the woods! The Clown Rock Goddess Organization is pleased with your performance and the Chief Technical Officer of the CRG Organization, Monkey 2, would like to invite you to join our organization. Please view our congratulatory note below.</p>
       <button id="offer-letter-button" onclick="viewOfferLetter()">View Offer Letter</button>
+    </div>
+  </div>
+  <!-- Offer Letter Video Modal -->
+  <div id="offer-letter-modal">
+    <div id="offer-letter-modal-content">
+      <span id="close-offer-letter-modal" onclick="closeOfferLetterModal()">&times;</span>
+      <video id="offer-letter-video" width="100%" controls>
+        <source src="{{ url_for('static', filename='audio/1 year.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
     </div>
   </div>
 
@@ -572,10 +614,25 @@
     function closeCongratsModal() {
       document.getElementById("congrats-modal").style.display = "none";
     }
+    
     function viewOfferLetter() {
-      // For now, we simply alert or redirect as needed.
-      alert("Offer Letter Coming Soon!");
-    }
+      const backgroundAudio = document.getElementById("intro-loading-audio");
+      backgroundAudio.pause();
+      document.getElementById("offer-letter-modal").style.display = "block";
+      const video = document.getElementById("offer-letter-video");
+      video.currentTime = 0;
+      video.play();
+      
+}
+    function closeOfferLetterModal() {
+      const video = document.getElementById("offer-letter-video");
+      video.pause();
+      document.getElementById("offer-letter-modal").style.display = "none";
+      const backgroundAudio = document.getElementById("intro-loading-audio");
+      backgroundAudio.play().catch(err => console.log("Audio resume failed:", err));
+}
+
+
   </script>
 </body>
 </html>
